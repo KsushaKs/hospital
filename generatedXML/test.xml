@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<doctor firstName="Ara">
+    <available>true</available>
+    <experience>5</experience>
+    <id>1</id>
+    <lastName>Popugai</lastName>
+    <specialties>
+        <specialty>
+            <title>one</title>
+        </specialty>
+        <specialty>
+            <title>two</title>
+        </specialty>
+    </specialties>
+</doctor>

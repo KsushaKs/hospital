@@ -1,25 +1,33 @@
 package com.softserveinc.hospital.model;
 
-import java.util.ArrayList;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 public class Specialty {
-    private ArrayList<String> titles;
-    private Doctor doctor;
+
+    private String title;
+
+//    @XmlAttribute
+//    private Doctor doctor;
 
     public Specialty() {
+
     }
 
-    public void setTitles(ArrayList<String> titles) {
-        this.titles = titles;
+    public Specialty(String title) {
+        this.title = title;
     }
 
-    public ArrayList<String> getTitles() {
-
-        return titles;
+    public String getTitle() {
+        return title;
     }
 
-    public Specialty(ArrayList<String> titles, Doctor doctor) {
-        this.doctor = doctor;
-        this.titles = titles;
+    public void setTitle(String title) {
+        this.title = title;
     }
+
+    //    public Specialty(ArrayList<String> titles, Doctor doctor) {
+//        this.doctor = doctor;
+//        this.titles = titles;
+//    }
 }

@@ -1,19 +1,21 @@
 package com.softserveinc.hospital.model;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 
 @XmlRootElement
 public class Doctor {
-    private int id;
+    private Integer id;
     private String firstName;
     private String lastName;
-    private int experience;
-    private ArrayList<String> specs;
-    private boolean isVailable;
+    private Integer experience;
+    private ArrayList<Specialty> specialties;
+    private Boolean isAvailable;
 
-    @XmlElement
+    @XmlAttribute
     public String getFirstName() {
         return firstName;
     }
@@ -32,48 +34,52 @@ public class Doctor {
     }
 
     @XmlElement
-    public int getExperience() {
+    public Integer getExperience() {
         return experience;
     }
 
-    public void setExperience(int experience) {
+    public void setExperience(Integer experience) {
         this.experience = experience;
     }
 
-    @XmlElement
-    public ArrayList<String> getSpecs() {
-        return specs;
+    @XmlElement(name = "specialty")
+    @XmlElementWrapper(name = "specialties")
+    public ArrayList<Specialty> getSpecialties() {
+        return specialties;
     }
 
-    public void setSpecs(ArrayList<String> specs) {
-        this.specs = specs;
+    public void setSpecialties(ArrayList<Specialty> specialties) {
+        this.specialties = specialties;
     }
 
     @XmlElement
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    @XmlElement
-
-    public boolean isVailable() {
-        return isVailable;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setVailable(boolean isVailable) {
-        this.isVailable = isVailable;
+    @XmlElement
+    public Boolean getAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(Boolean isAvailable) {
+        this.isAvailable = isAvailable;
     }
 
     public Doctor() {
     }
 
-    public Doctor(String firstName, String lastName, int experience, ArrayList<String> specs, boolean isVailable, int id) {
+    public Doctor(Integer id, String firstName, String lastName, Integer experience, ArrayList<Specialty> specialties, Boolean isAvailable) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.experience = experience;
-        this.isVailable = isVailable;
-        this.specs = specs;
-        this.id = id;
+        this.isAvailable = isAvailable;
+        this.specialties = specialties;
     }
 
 }

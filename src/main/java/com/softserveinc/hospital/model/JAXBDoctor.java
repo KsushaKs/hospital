@@ -8,25 +8,30 @@ import java.io.File;
 
 public class JAXBDoctor {
 
-    public void writeToFile(Doctor doctor) {
+    public static String writeToFile(Doctor doctor, String filename) {
+        String path = null;
         try {
-            File file = new File("");
+            File file = new File(String.format("generatedXML/%s.xml", filename));
             JAXBContext context = JAXBContext.newInstance(Doctor.class);
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.marshal(doctor, file);
+            path = file.getAbsolutePath();
         } catch (JAXBException e) {
             e.printStackTrace();
         }
+        return path;
     }
 
-    public void readFromFile(File file) {
+    public static Doctor readFromFile(String filename) {
+        Doctor doctor = null;
         try {
             JAXBContext context = JAXBContext.newInstance(Doctor.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
-            Doctor doctor = (Doctor) unmarshaller.unmarshal(file);
+            doctor = (Doctor) unmarshaller.unmarshal(new File(filename));
         } catch (JAXBException e) {
             e.printStackTrace();
         }
+        return doctor;
     }
 }
