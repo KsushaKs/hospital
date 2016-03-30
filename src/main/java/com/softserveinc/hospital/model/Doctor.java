@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
+import java.util.Date;
 
 @XmlRootElement
 public class Doctor {
@@ -14,10 +15,19 @@ public class Doctor {
     private Integer experience;
     private ArrayList<String> specialties;
     private Boolean isAvailable;
+    private Date birthDate;
 
-    @XmlAttribute
+    @XmlElement
     public String getFirstName() {
         return firstName;
+    }
+    @XmlElement
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 
     public void setFirstName(String firstName) {
@@ -52,7 +62,7 @@ public class Doctor {
         this.specialties = specialties;
     }
 
-    @XmlElement
+    @XmlAttribute
     public Long getId() {
         return id;
     }
@@ -80,6 +90,7 @@ public class Doctor {
         this.experience = experience;
         this.isAvailable = isAvailable;
         this.specialties = specialties;
+
     }
 
     @Override
@@ -97,7 +108,8 @@ public class Doctor {
         return isAvailable != null ? isAvailable.equals(doctor.isAvailable) : doctor.isAvailable == null;
 
     }
-//generated
+
+    //generated
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
@@ -107,5 +119,12 @@ public class Doctor {
         result = 31 * result + (specialties != null ? specialties.hashCode() : 0);
         result = 31 * result + (isAvailable != null ? isAvailable.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        String toReturn;
+        toReturn = this.firstName + " " + this.lastName + " " + this.experience + " " + this.specialties + " " + this.isAvailable.toString();
+        return toReturn;
     }
 }

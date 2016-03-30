@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<doctor firstName="Ara">
+<doctor id="1">
     <available>true</available>
     <experience>5</experience>
-    <id>1</id>
+    <firstName>Ara</firstName>
     <lastName>Popugai</lastName>
     <specialties>
         <specialty>one</specialty>
-        <specialty>two</specialty>
+      
     </specialties>
 </doctor>

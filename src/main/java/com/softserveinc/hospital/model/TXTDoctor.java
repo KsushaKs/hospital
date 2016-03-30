@@ -1,0 +1,55 @@
+package com.softserveinc.hospital.model;
+
+import java.io.*;
+import java.util.ArrayList;
+
+/**
+ * Created by ksu on 30.03.16.
+ */
+public class TXTDoctor implements Convertible {
+    @Override
+    public void writeToFile(Doctor doctor, String fileName) {
+
+        try (FileWriter fileWriter = new FileWriter(fileName)) {
+
+            fileWriter.write(doctor.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public Doctor readFromFile(String fileName) {
+        Doctor doctor = new Doctor();
+        try {
+            File file = new File(fileName);
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String line = reader.readLine();
+            String []tokens = line.split(" ");
+            doctor.setId(Long.parseLong(tokens[0]));
+            doctor.setFirstName(tokens[1]);
+            doctor.setLastName(tokens[2]);
+            doctor.setExperience(Integer.parseInt(tokens[3]));
+            doctor.setAvailable(Boolean.parseBoolean(tokens[4]));
+            String[]strings = tokens[5].split(",");
+            ArrayList<String> specs = new ArrayList<>();
+            for (int i = 0; i < strings.length; i++) {
+                String value = strings[i];
+                if(value.startsWith("[")){
+                    value = value.substring(1);
+                }
+                if(value.endsWith("]")){
+                    value = value.substring(0,value.length()-2);
+                }
+                specs.add(value);
+            }
+            doctor.setSpecialties(specs);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return doctor;
+    }
+}
