@@ -1,11 +1,12 @@
 package com.softserveinc.hospital.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
 
 @XmlRootElement
 public class Specialty {
 
-    private String title;
+    private ArrayList<String> titles;
 
 //    @XmlAttribute
 //    private Doctor doctor;
@@ -14,16 +15,16 @@ public class Specialty {
 
     }
 
-    public Specialty(String title) {
-        this.title = title;
+    public Specialty(ArrayList<String> titles) {
+        this.titles = titles;
     }
 
-    public String getTitle() {
-        return title;
+    public ArrayList<String> getTitles() {
+        return titles;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTitles(ArrayList<String> titles) {
+        this.titles = titles;
     }
 
     //    public Specialty(ArrayList<String> titles, Doctor doctor) {

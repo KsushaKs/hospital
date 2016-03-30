@@ -38,7 +38,7 @@ public class HospitalData {
         for (int i = 0; i < specTitles.size(); i++) {
             String speciality = specTitles.get(i);
             for (int j = 0; j < doctors.size(); j++) {
-                ArrayList<Specialty> doctorSp = doctors.get(j).getSpecialties();
+                ArrayList<String> doctorSp = doctors.get(j).getSpecialties();
                 for (int k = 0; k < doctorSp.size(); k++) {
                     if (speciality.equals(doctorSp.get(k))) {
                         int value = countDoctors.get(speciality);

@@ -5,11 +5,7 @@
     <id>1</id>
     <lastName>Popugai</lastName>
     <specialties>
-        <specialty>
-            <title>one</title>
-        </specialty>
-        <specialty>
-            <title>two</title>
-        </specialty>
+        <specialty>one</specialty>
+        <specialty>two</specialty>
     </specialties>
 </doctor>

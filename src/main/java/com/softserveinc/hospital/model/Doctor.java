@@ -82,4 +82,30 @@ public class Doctor {
         this.specialties = specialties;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Doctor doctor = (Doctor) o;
+
+        if (id != null ? !id.equals(doctor.id) : doctor.id != null) return false;
+        if (firstName != null ? !firstName.equals(doctor.firstName) : doctor.firstName != null) return false;
+        if (lastName != null ? !lastName.equals(doctor.lastName) : doctor.lastName != null) return false;
+        if (experience != null ? !experience.equals(doctor.experience) : doctor.experience != null) return false;
+        if (specialties != null ? !specialties.equals(doctor.specialties) : doctor.specialties != null) return false;
+        return isAvailable != null ? isAvailable.equals(doctor.isAvailable) : doctor.isAvailable == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (experience != null ? experience.hashCode() : 0);
+        result = 31 * result + (specialties != null ? specialties.hashCode() : 0);
+        result = 31 * result + (isAvailable != null ? isAvailable.hashCode() : 0);
+        return result;
+    }
 }
