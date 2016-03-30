@@ -10,9 +10,9 @@ public class test {
 
     public static void main(String[] args) {
         ArrayList<Specialty> specialties = new ArrayList<>(asList(new Specialty("one"), new Specialty("two")));
-        Doctor doctor = new Doctor(1, "Ara", "Popugai", 5, specialties, true);
+        Doctor doctor = new Doctor(1L, "Ara", "Popugai", 5, specialties, true);
         String marshaledFile = JAXBDoctor.writeToFile(doctor, doctor.getFirstName());
-        Doctor unmarshaledDoctor = JAXBDoctor.readFromFile(marshaledFile);
+        Doctor unmarshaledDoctor = JAXBDoctor.readFromFile("sada");
 
         int a = 1;
     }

@@ -8,11 +8,11 @@ import java.util.ArrayList;
 
 @XmlRootElement
 public class Doctor {
-    private Integer id;
+    private Long id;
     private String firstName;
     private String lastName;
     private Integer experience;
-    private ArrayList<Specialty> specialties;
+    private ArrayList<String> specialties;
     private Boolean isAvailable;
 
     @XmlAttribute
@@ -44,20 +44,20 @@ public class Doctor {
 
     @XmlElement(name = "specialty")
     @XmlElementWrapper(name = "specialties")
-    public ArrayList<Specialty> getSpecialties() {
+    public ArrayList<String> getSpecialties() {
         return specialties;
     }
 
-    public void setSpecialties(ArrayList<Specialty> specialties) {
+    public void setSpecialties(ArrayList<String> specialties) {
         this.specialties = specialties;
     }
 
     @XmlElement
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -73,7 +73,7 @@ public class Doctor {
     public Doctor() {
     }
 
-    public Doctor(Integer id, String firstName, String lastName, Integer experience, ArrayList<Specialty> specialties, Boolean isAvailable) {
+    public Doctor(Long id, String firstName, String lastName, Integer experience, ArrayList<String> specialties, Boolean isAvailable) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
