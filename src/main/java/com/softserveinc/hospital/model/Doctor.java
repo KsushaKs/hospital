@@ -97,7 +97,7 @@ public class Doctor {
         return isAvailable != null ? isAvailable.equals(doctor.isAvailable) : doctor.isAvailable == null;
 
     }
-
+//generated
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
