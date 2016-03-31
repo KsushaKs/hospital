@@ -4,24 +4,44 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class HospitalData {
-    //private Doctor doctor;
     private ArrayList<Doctor> doctors;
+    private ArrayList<String> titles;
 
-    private HashMap<ArrayList<String>, Integer> specials;
 
     public HospitalData() {
     }
 
-    public void setSpecials(HashMap<ArrayList<String>, Integer> specials) {
-        this.specials = specials;
+
+
+
+    public ArrayList<Doctor> doctorsBySpec(String speciality){
+        ArrayList<Doctor> doctorsSpec = new ArrayList<>();
+        for (Doctor doc : doctors){
+            for (int i = 0; i < doc.getSpecialties().size(); i++) {
+                if(doc.getSpecialties().get(i).equals(speciality)){
+                    doctorsSpec.add(doc);
+                }
+            }
+        }
+        return doctorsSpec;
+    }
+
+    public int countSpec(String speciality) {
+        int count = 0;
+        for (Doctor doc : doctors) {
+            for (int i = 0; i < doc.getSpecialties().size(); i++) {
+                if(doc.getSpecialties().get(i).equals(speciality)){
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 
     public void removeEmptySpec(ArrayList<Doctor> doctors) {
         HashMap<String, Integer> countDoctors = createMapByDoctorSpec(doctors);
-        Specialty sp = new Specialty();
-        ArrayList<String> specTitles = sp.getTitles();
-        for (int i = 0; i < specTitles.size(); i++) {
-            String key = specTitles.get(i);
+        for (int i = 0; i < titles.size(); i++) {
+            String key = titles.get(i);
             if (countDoctors.get(key).equals(0)) {
                 countDoctors.remove(key);
             }
@@ -29,14 +49,12 @@ public class HospitalData {
     }
 
     public HashMap<String, Integer> createMapByDoctorSpec(ArrayList<Doctor> doctors) {
-        Specialty sp = new Specialty();
-        ArrayList<String> specTitles = sp.getTitles();
         HashMap<String, Integer> countDoctors = new HashMap<String, Integer>();
         for (int i = 0; i < countDoctors.size(); i++) {
             countDoctors.put("", 0);
         }
-        for (int i = 0; i < specTitles.size(); i++) {
-            String speciality = specTitles.get(i);
+        for (int i = 0; i < titles.size(); i++) {
+            String speciality = titles.get(i);
             for (int j = 0; j < doctors.size(); j++) {
                 ArrayList<String> doctorSp = doctors.get(j).getSpecialties();
                 for (int k = 0; k < doctorSp.size(); k++) {

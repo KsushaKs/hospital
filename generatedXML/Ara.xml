@@ -6,6 +6,6 @@
     <lastName>Popugai</lastName>
     <specialties>
         <specialty>one</specialty>
-      
+        <specialty>two</specialty>
     </specialties>
 </doctor>

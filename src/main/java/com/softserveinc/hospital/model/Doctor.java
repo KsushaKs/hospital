@@ -130,7 +130,13 @@ public class Doctor {
     @Override
     public String toString() {
         String toReturn;
-        toReturn = this.firstName + " " + this.lastName + " " + this.experience + " " + this.specialties + " " + this.isAvailable.toString();
+        String specToString="";
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < specialties.size(); i++) {
+            specToString =sb.append(specialties.get(i)).append(", ").toString();
+        }
+        specToString = sb.delete(specToString.length()-3,specToString.length()-1).toString();
+        toReturn = this.firstName + " " + this.lastName + " [" +this.birthDate +"] ("+ this.experience + "," +(this.isAvailable?'Y':'N')+"):{"+ specToString+"}";
         return toReturn;
     }
 }

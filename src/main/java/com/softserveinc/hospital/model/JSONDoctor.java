@@ -1,6 +1,7 @@
 package com.softserveinc.hospital.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +27,8 @@ public class JSONDoctor implements Convertible {
         Doctor doctor = null;
         try {
             doctor = mapper.readValue(new File(fileName), Doctor.class);
+        } catch (InvalidFormatException e){
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
