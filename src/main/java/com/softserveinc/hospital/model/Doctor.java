@@ -9,6 +9,7 @@ import java.util.Date;
 
 @XmlRootElement
 public class Doctor {
+    private static Long countID = 0L;
     private Long id;
     private String firstName;
     private String lastName;
@@ -16,6 +17,7 @@ public class Doctor {
     private ArrayList<String> specialties;
     private Boolean isAvailable;
     private Date birthDate;
+
 
     @XmlElement
     public String getFirstName() {
@@ -64,6 +66,7 @@ public class Doctor {
 
     @XmlAttribute
     public Long getId() {
+        id = Doctor.getCountID();
         return id;
     }
 
@@ -120,7 +123,10 @@ public class Doctor {
         result = 31 * result + (isAvailable != null ? isAvailable.hashCode() : 0);
         return result;
     }
-
+    public static Long getCountID(){
+        countID++;
+        return countID;
+    }
     @Override
     public String toString() {
         String toReturn;

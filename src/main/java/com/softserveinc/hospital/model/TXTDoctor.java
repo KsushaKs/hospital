@@ -27,12 +27,12 @@ public class TXTDoctor implements Convertible {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             String line = reader.readLine();
             String []tokens = line.split(" ");
-            doctor.setId(Long.parseLong(tokens[0]));
-            doctor.setFirstName(tokens[1]);
-            doctor.setLastName(tokens[2]);
-            doctor.setExperience(Integer.parseInt(tokens[3]));
-            doctor.setAvailable(Boolean.parseBoolean(tokens[4]));
-            String[]strings = tokens[5].split(",");
+            doctor.setId(Doctor.getCountID());
+            doctor.setFirstName(tokens[0]);
+            doctor.setLastName(tokens[1]);
+            doctor.setExperience(Integer.parseInt(tokens[2]));
+            doctor.setAvailable(Boolean.parseBoolean(tokens[3]));
+            String[]strings = tokens[4].split(",");
             ArrayList<String> specs = new ArrayList<>();
             for (int i = 0; i < strings.length; i++) {
                 String value = strings[i];

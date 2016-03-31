@@ -50,4 +50,5 @@ public class HospitalData {
         }
         return countDoctors;
     }
+
 }
