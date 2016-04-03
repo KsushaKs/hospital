@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <doctor id="1">
     <available>true</available>
+    <birthDate>2000-02-12</birthDate>
     <experience>5</experience>
     <firstName>Ara</firstName>
     <lastName>Popugai</lastName>

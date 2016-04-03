@@ -1,11 +1,15 @@
 package com.softserveinc.hospital.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.joda.time.LocalDate;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.ArrayList;
-import java.util.Date;
 
 @XmlRootElement
 public class Doctor {
@@ -16,19 +20,23 @@ public class Doctor {
     private Integer experience;
     private ArrayList<String> specialties;
     private Boolean isAvailable;
-    private Date birthDate;
+    @JsonSerialize(using =LocalDateJSONSerializer.class )
+    @JsonDeserialize(using = LocalDateJSONDeserializer.class)
+    private LocalDate birthDate;
 
 
     @XmlElement
     public String getFirstName() {
         return firstName;
     }
+
     @XmlElement
-    public Date getBirthDate() {
+    @XmlJavaTypeAdapter(type = LocalDate.class, value = LocalDateAdapterXML.class)
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -123,20 +131,22 @@ public class Doctor {
         result = 31 * result + (isAvailable != null ? isAvailable.hashCode() : 0);
         return result;
     }
-    public static Long getCountID(){
+
+    public static Long getCountID() {
         countID++;
         return countID;
     }
+
     @Override
     public String toString() {
         String toReturn;
-        String specToString="";
+        String specToString = "";
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < specialties.size(); i++) {
-            specToString =sb.append(specialties.get(i)).append(", ").toString();
+        for (String specialty : specialties) {
+            specToString = sb.append(specialty).append(", ").toString();
         }
-        specToString = sb.delete(specToString.length()-3,specToString.length()-1).toString();
-        toReturn = this.firstName + " " + this.lastName + " [" +this.birthDate +"] ("+ this.experience + "," +(this.isAvailable?'Y':'N')+"):{"+ specToString+"}";
+        specToString = sb.delete(specToString.length() - 3, specToString.length() - 1).toString();
+        toReturn = this.firstName + " " + this.lastName + " [" + this.birthDate + "] (" + this.experience + "," + (this.isAvailable ? 'Y' : 'N') + "):{" + specToString + "}";
         return toReturn;
     }
 }

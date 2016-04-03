@@ -12,6 +12,7 @@ import java.io.IOException;
 public class JSONDoctor implements Convertible {
     private static final ObjectMapper mapper = new ObjectMapper();
 
+
     @Override
     public void writeToFile(Doctor doctor, String fileName) {
         try {
