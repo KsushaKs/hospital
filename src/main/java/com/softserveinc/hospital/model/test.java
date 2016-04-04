@@ -21,7 +21,12 @@ public class test {
         jsonDoctor.writeToFile(doctor,"/home/ksu/workspace/hospital/Ara.json");
         TXTDoctor txtDoctor = new TXTDoctor();
        // System.out.println(txtDoctor.isValid("Akks Asss [2000/09-27] (888,Y):{fgg,djj}"));
-        Doctor x = jsonDoctor.readFromFile("/home/ksu/workspace/hospital/Ara.json");
+       // Doctor x = jsonDoctor.readFromFile("/home/ksu/workspace/hospital/Ara.json");
+        DoctorDAO doctorDAO = new DoctorDAO();
+        ArrayList<Doctor> doctors = doctorDAO.getDoctors();
+        for (int i = 0; i < doctors.size(); i++) {
+            System.out.println(doctors.get(i));
+        }
         int a = 1 ;
     }
 }

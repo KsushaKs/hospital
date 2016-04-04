@@ -145,7 +145,7 @@ public class Doctor {
         for (String specialty : specialties) {
             specToString = sb.append(specialty).append(", ").toString();
         }
-        specToString = sb.delete(specToString.length() - 3, specToString.length() - 1).toString();
+        specToString = sb.delete(specToString.length() - 2, specToString.length()).toString();
         toReturn = this.firstName + " " + this.lastName + " [" + this.birthDate + "] (" + this.experience + "," + (this.isAvailable ? 'Y' : 'N') + "):{" + specToString + "}";
         return toReturn;
     }
