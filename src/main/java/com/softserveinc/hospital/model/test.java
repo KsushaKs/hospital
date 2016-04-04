@@ -20,7 +20,7 @@ public class test {
         JSONDoctor jsonDoctor = new JSONDoctor();
         jsonDoctor.writeToFile(doctor,"/home/ksu/workspace/hospital/Ara.json");
         TXTDoctor txtDoctor = new TXTDoctor();
-        //System.out.println(txtDoctor.isValid("Akks Asss [2000/09-27] (888,Y):{fgg,djj}"));
+       // System.out.println(txtDoctor.isValid("Akks Asss [2000/09-27] (888,Y):{fgg,djj}"));
         Doctor x = jsonDoctor.readFromFile("/home/ksu/workspace/hospital/Ara.json");
         int a = 1 ;
     }

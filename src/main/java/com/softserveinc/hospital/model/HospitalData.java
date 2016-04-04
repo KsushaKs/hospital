@@ -26,7 +26,7 @@ public class HospitalData {
         return doctorsSpec;
     }
 
-    public int countSpec(String speciality) {
+    private int countSpec(String speciality) {
         int count = 0;
         for (Doctor doc : doctors) {
             for (int i = 0; i < doc.getSpecialties().size(); i++) {
@@ -37,7 +37,11 @@ public class HospitalData {
         }
         return count;
     }
-
+    public void removeSpec(String speciality){
+        if(countSpec(speciality)==0){
+            titles.remove(titles.indexOf(speciality));
+        }
+    }
     public void removeEmptySpec(ArrayList<Doctor> doctors) {
         HashMap<String, Integer> countDoctors = createMapByDoctorSpec(doctors);
         for (int i = 0; i < titles.size(); i++) {
