@@ -74,7 +74,6 @@ public class Doctor {
 
     @XmlAttribute
     public Long getId() {
-        id = Doctor.getCountID();
         return id;
     }
 

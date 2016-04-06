@@ -6,10 +6,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import javax.print.Doc;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Formatter;
@@ -19,28 +16,56 @@ import java.util.Formatter;
  */
 public class DoctorDAO {
 
-    public  ArrayList<Doctor> getDoctors(){
+    private static final String SELECT_BY_ID = "SELECT * FROM doctors WHERE doctors.id=%d";
+    private static final String INSERT_DOCTOR = "INSERT INTO doctors (first_name, last_name, birthday, experience, available) VALUES (?, ?, ?, ?, ?)";
+    private static final String DELETE_DOCTOR = "DELETE FROM doctors WHERE id=?";
+    private static final String CREATE_DOCTORS = "";
+    private static final String DROP_DOCTORS = "";
+    private static final String UPDATE_DOCTOR_AVAILABLE = "UPDATE doctors SET available='Y' WHERE available='N'";
+
+
+    public ArrayList<Doctor> getDoctors() {
         ArrayList<Doctor> doctors = new ArrayList<>();
         String query = "SELECT * FROM doctors";
-        try{
-            ResultSet rs = MySQLConnection.getResultSet(query);
-            while (rs.next()){
+        try {
+            Statement statement = MySQLConnection.getConnection().createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            while (rs.next()) {
                 doctors.add(getDoc(rs));
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return doctors;
     }
-    public  Doctor getByID(Integer id) {
-        String query = String.format("SELECT * FROM doctors WHERE doctors.id=%d", id);
+
+    public Doctor getByID(Integer id) {
+        String query = String.format(SELECT_BY_ID, id);
         Doctor doctor = null;
+        Statement statement = null;
+        ResultSet rs = null;
+        Connection connection = MySQLConnection.getConnection();
         try {
-            ResultSet rs = MySQLConnection.getResultSet(query);
+            statement = connection.createStatement();
+            rs = statement.executeQuery(query);
             rs.next();
             doctor = getDoc(rs);
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return doctor;
     }
@@ -54,10 +79,94 @@ public class DoctorDAO {
             doctor.setBirthDate(LocalDate.parse(rs.getString("birthday"), DateTimeFormat.forPattern("yyyy-MM-dd")));
             doctor.setExperience(rs.getInt("experience"));
             doctor.setAvailable(rs.getString("available").equalsIgnoreCase("Y"));
-            doctor.setSpecialties(new ArrayList<String>(Arrays.asList("one","two")));
-        } catch (Exception e){
+            doctor.setSpecialties(new ArrayList<String>(Arrays.asList("one", "two")));
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return doctor;
     }
+
+    public void setDoctor(Doctor doctor) {
+        Connection connection = MySQLConnection.getConnection();
+        PreparedStatement ps = null;
+        try {
+            ps = connection.prepareStatement(INSERT_DOCTOR);
+            ps.setString(1, doctor.getFirstName());
+            ps.setString(2, doctor.getLastName());
+            ps.setDate(3, new Date(doctor.getBirthDate().toDate().getTime()));
+            ps.setInt(4, doctor.getExperience());
+            ps.setString(5, (doctor.getAvailable() ? "Y" : "N"));
+            int rowsInserted = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public void updateDoctor(Doctor doctor){
+        Connection connection = MySQLConnection.getConnection();
+        PreparedStatement ps= null;
+        String query ="UPDATE doctors SET first_name=?,last_name=?,birthday=?,experience=?,available=? WHERE id=?";
+        try{
+            ps = connection.prepareStatement(query);
+            ps.setString(1,doctor.getFirstName());
+            ps.setString(2,doctor.getLastName());
+            ps.setDate(3,new Date(doctor.getBirthDate().toDate().getTime()));
+            ps.setInt(4,doctor.getExperience());
+            ps.setString(5,(doctor.getAvailable() ? "Y" : "N"));
+            ps.setLong(6,doctor.getId());
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void updateDoctorAvailable() {
+        PreparedStatement statement = null;
+        Connection connection = MySQLConnection.getConnection();
+        try {
+            statement = connection.prepareStatement(UPDATE_DOCTOR_AVAILABLE);
+            statement.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+
+
+    public void deleteDoctor(int id) {
+        PreparedStatement statement = null;
+        Connection connection = MySQLConnection.getConnection();
+        try {
+
+            statement = connection.prepareStatement(DELETE_DOCTOR);
+            statement.setLong(1, id);
+            statement.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            {
+                try {
+                    if (statement != null)
+                        statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }
+

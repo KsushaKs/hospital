@@ -34,16 +34,4 @@ public class MySQLConnection {
         }
     }
 
-    public static ResultSet getResultSet(String query) {
-        Statement statement = null;
-        ResultSet rs = null;
-        try {
-            statement = getConnection().createStatement();
-            rs = statement.executeQuery(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return rs;
-    }
-
 }
