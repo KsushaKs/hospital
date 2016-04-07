@@ -79,7 +79,7 @@ public class DoctorDAO {
             doctor.setBirthDate(LocalDate.parse(rs.getString("birthday"), DateTimeFormat.forPattern("yyyy-MM-dd")));
             doctor.setExperience(rs.getInt("experience"));
             doctor.setAvailable(rs.getString("available").equalsIgnoreCase("Y"));
-            doctor.setSpecialties(new ArrayList<String>(Arrays.asList("one", "two")));
+            doctor.setSpecialties(new ArrayList<Specialities>(Arrays.asList(new Specialities(),new Specialities())));
         } catch (Exception e) {
             e.printStackTrace();
         }

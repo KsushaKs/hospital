@@ -80,9 +80,9 @@ public class TXTDoctor implements Convertible {
         doctor.setBirthDate(LocalDate.parse(tokens[2]));}
         doctor.setExperience(Integer.parseInt(tokens[3]));
         doctor.setAvailable(tokens[4].equals("Y"));
-        ArrayList<String> specs = new ArrayList<>();
-        specs.add(tokens[5]);
-        specs.add(tokens[6]);
+        ArrayList<Specialities> specs = new ArrayList<>();
+        specs.add(new Specialities(tokens[5]));
+        specs.add(new Specialities(tokens[6]));
         doctor.setSpecialties(specs);
         return doctor;
     }

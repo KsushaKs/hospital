@@ -12,11 +12,12 @@ public class BindingDAO {
     private static final String DROP_BINDING = "DROP TABLE binding";
     private static final String SET_SPECIALITY_ID = "INSERT INTO binding (id_speciality) VALUES(?)";
     private static final String SET_SPECIALITY = "INSERT INTO binding (id_speciality,id_doctor) VALUES (?,?)";
-    public void setBinding(){
+    public void setBinding(Doctor doctor){
         Connection connection = MySQLConnection.getConnection();
         PreparedStatement ps = null;
         try{
             ps = connection.prepareStatement(SET_SPECIALITY);
+            ps.setLong(1,doctor.getId());
             ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();

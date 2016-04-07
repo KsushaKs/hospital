@@ -18,7 +18,7 @@ public class Doctor {
     private String firstName;
     private String lastName;
     private Integer experience;
-    private ArrayList<String> specialties;
+    private ArrayList<Specialities> specialties;
     private Boolean isAvailable;
     @JsonSerialize(using =LocalDateJSONSerializer.class )
     @JsonDeserialize(using = LocalDateJSONDeserializer.class)
@@ -64,11 +64,11 @@ public class Doctor {
 
     @XmlElement(name = "specialty")
     @XmlElementWrapper(name = "specialties")
-    public ArrayList<String> getSpecialties() {
+    public ArrayList<Specialities> getSpecialties() {
         return specialties;
     }
 
-    public void setSpecialties(ArrayList<String> specialties) {
+    public void setSpecialties(ArrayList<Specialities> specialties) {
         this.specialties = specialties;
     }
 
@@ -93,7 +93,7 @@ public class Doctor {
     public Doctor() {
     }
 
-    public Doctor(Long id, String firstName, String lastName, Integer experience, ArrayList<String> specialties, Boolean isAvailable) {
+    public Doctor(Long id, String firstName, String lastName, Integer experience, ArrayList<Specialities> specialties, Boolean isAvailable) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -141,7 +141,7 @@ public class Doctor {
         String toReturn;
         String specToString = "";
         StringBuilder sb = new StringBuilder();
-        for (String specialty : specialties) {
+        for (Specialities specialty : specialties) {
             specToString = sb.append(specialty).append(", ").toString();
         }
         specToString = sb.delete(specToString.length() - 2, specToString.length()).toString();

@@ -1,9 +1,6 @@
 package com.softserveinc.hospital.model;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * Created by ksu on 05.04.16.
@@ -16,6 +13,19 @@ public class SpecialityDAO {
             + " NOT IN (SELECT DISTINCT id_speciality FROM binding)";
     private static final String CREATE_SPECIALITY = "CREATE TABLE speciality (id int NOT NULL auto_increment, " +
             "title VARCHAR(45),PRIMARY KEY (id))";
+    private static final String GET_ID_BY_TITLE = "SELECT id FROM speciality WHERE title=?";
+    public int getIdByTitle(){
+        Connection connection = MySQLConnection.getConnection();
+        ResultSet resultSet = null;
+        Statement statement = null;
+        try{
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(GET_ID_BY_TITLE);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
     public void createSpeciality(){
         Connection connection = MySQLConnection.getConnection();
         PreparedStatement ps = null;
@@ -50,9 +60,9 @@ public class SpecialityDAO {
         Connection connection = MySQLConnection.getConnection();
         PreparedStatement ps = null;
         try {
-            for(String spec:doctor.getSpecialties()){
+            for(Specialities spec:doctor.getSpecialties()){
             ps = connection.prepareStatement(SET_SPECIALITY);
-            ps.setString(1,spec);}
+            ps.setString(1,spec.toString());}
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
