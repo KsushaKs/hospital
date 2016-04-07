@@ -12,14 +12,14 @@ public class BindingDAO {
             "FOREIGN KEY (id_doctor) REFERENCES doctors(id)) ";
     private static final String DROP_BINDING = "DROP TABLE binding";
     private static final String SET_SPECIALITY_ID = "INSERT INTO binding (id_speciality) VALUES(?)";
-    private static final String SET_SPECIALITY = "INSERT INTO binding(id_speciality,id_doctor)" +
+    private static final String SET_BINDING = "INSERT INTO binding(id_speciality,id_doctor)" +
             "VALUES ((SELECT id FROM speciality WHERE title=?),?)";
     public void setBinding(Doctor doctor){
         Connection connection = MySQLConnection.getConnection();
         PreparedStatement ps = null;
         try{
             for(Specialities spec : doctor.getSpecialties()){
-            ps = connection.prepareStatement(SET_SPECIALITY);
+            ps = connection.prepareStatement(SET_BINDING);
             ps.setString(1,spec.toString());
             ps.setLong(2,doctor.getId());
             ps.execute();}
