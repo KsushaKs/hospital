@@ -6,19 +6,23 @@ import java.sql.*;
  * Created by ksu on 05.04.16.
  */
 public class BindingDAO {
-    private static final String CREATE_BINDING = "CREATE TABLE binding (id int NOT NULL AUTO_INCREMENT," +
-            " id_speciality int, id_doctor int, PRIMARY KEY (id), foreign key (id_speciality) REFERENCES speciality(id), " +
+    private static final String CREATE_BINDING = "CREATE TABLE binding (id int NOT NULL auto_increment," +
+            " id_speciality int, id_doctor int, PRIMARY KEY (id), " +
+            "foreign key (id_speciality) REFERENCES speciality(id), " +
             "FOREIGN KEY (id_doctor) REFERENCES doctors(id)) ";
     private static final String DROP_BINDING = "DROP TABLE binding";
     private static final String SET_SPECIALITY_ID = "INSERT INTO binding (id_speciality) VALUES(?)";
-    private static final String SET_SPECIALITY = "INSERT INTO binding (id_speciality,id_doctor) VALUES (?,?)";
+    private static final String SET_SPECIALITY = "INSERT INTO binding(id_speciality,id_doctor)" +
+            "VALUES ((SELECT id FROM speciality WHERE title=?),?)";
     public void setBinding(Doctor doctor){
         Connection connection = MySQLConnection.getConnection();
         PreparedStatement ps = null;
         try{
+            for(Specialities spec : doctor.getSpecialties()){
             ps = connection.prepareStatement(SET_SPECIALITY);
-            ps.setLong(1,doctor.getId());
-            ps.execute();
+            ps.setString(1,spec.toString());
+            ps.setLong(2,doctor.getId());
+            ps.execute();}
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -91,10 +91,11 @@ public class Doctor {
     }
 
     public Doctor() {
+        this.id = getCountID();
     }
 
-    public Doctor(Long id, String firstName, String lastName, Integer experience, ArrayList<Specialities> specialties, Boolean isAvailable) {
-        this.id = id;
+    public Doctor( String firstName, String lastName, Integer experience, ArrayList<Specialities> specialties, Boolean isAvailable) {
+        this.id = getCountID();
         this.firstName = firstName;
         this.lastName = lastName;
         this.experience = experience;

@@ -62,8 +62,8 @@ public class SpecialityDAO {
         try {
             for(Specialities spec:doctor.getSpecialties()){
             ps = connection.prepareStatement(SET_SPECIALITY);
-            ps.setString(1,spec.toString());}
-            ps.executeUpdate();
+            ps.setString(1,spec.toString());
+            ps.executeUpdate();}
         } catch (Exception e) {
             e.printStackTrace();
         }

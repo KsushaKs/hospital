@@ -16,13 +16,38 @@ import java.util.Formatter;
  */
 public class DoctorDAO {
 
-    private static final String SELECT_BY_ID = "SELECT * FROM doctors WHERE doctors.id=%d";
-    private static final String INSERT_DOCTOR = "INSERT INTO doctors (first_name, last_name, birthday, experience, available) VALUES (?, ?, ?, ?, ?)";
+    private static final String SELECT_BY_ID = "SELECT * FROM doctors WHERE id=%d";
+    private static final String INSERT_DOCTOR = "INSERT INTO doctors " +
+            "(id,first_name, last_name, birthday, experience, available) " +
+            "VALUES (?,?, ?, ?, ?, ?)";
     private static final String DELETE_DOCTOR = "DELETE FROM doctors WHERE id=?";
-    private static final String CREATE_DOCTORS = "";
-    private static final String DROP_DOCTORS = "";
+    private static final String CREATE_DOCTORS = "CREATE TABLE doctors " +
+            "(id int NOT NULL UNIQUE ,first_name VARCHAR (45), last_name VARCHAR (45), " +
+            "birthday DATE , experience int , available VARCHAR (1))";
+    private static final String DROP_DOCTORS = "DROP TABLE doctors";
     private static final String UPDATE_DOCTOR_AVAILABLE = "UPDATE doctors SET available='Y' WHERE available='N'";
 
+    public void createDoctors() {
+        Connection connection = MySQLConnection.getConnection();
+        PreparedStatement ps = null;
+        try{
+            ps = connection.prepareStatement(CREATE_DOCTORS);
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteDoctors() {
+        Connection connection = MySQLConnection.getConnection();
+        PreparedStatement ps = null;
+        try {
+            ps = connection.prepareStatement(DROP_DOCTORS);
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public ArrayList<Doctor> getDoctors() {
         ArrayList<Doctor> doctors = new ArrayList<>();
@@ -79,7 +104,7 @@ public class DoctorDAO {
             doctor.setBirthDate(LocalDate.parse(rs.getString("birthday"), DateTimeFormat.forPattern("yyyy-MM-dd")));
             doctor.setExperience(rs.getInt("experience"));
             doctor.setAvailable(rs.getString("available").equalsIgnoreCase("Y"));
-            doctor.setSpecialties(new ArrayList<Specialities>(Arrays.asList(new Specialities(),new Specialities())));
+            doctor.setSpecialties(new ArrayList<Specialities>(Arrays.asList(new Specialities(), new Specialities())));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -91,12 +116,13 @@ public class DoctorDAO {
         PreparedStatement ps = null;
         try {
             ps = connection.prepareStatement(INSERT_DOCTOR);
-            ps.setString(1, doctor.getFirstName());
-            ps.setString(2, doctor.getLastName());
-            ps.setDate(3, new Date(doctor.getBirthDate().toDate().getTime()));
-            ps.setInt(4, doctor.getExperience());
-            ps.setString(5, (doctor.getAvailable() ? "Y" : "N"));
-            int rowsInserted = ps.executeUpdate();
+            ps.setLong(1, doctor.getId());
+            ps.setString(2, doctor.getFirstName());
+            ps.setString(3, doctor.getLastName());
+            ps.setDate(4, new Date(doctor.getBirthDate().toDate().getTime()));
+            ps.setInt(5, doctor.getExperience());
+            ps.setString(6, (doctor.getAvailable() ? "Y" : "N"));
+            ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -109,23 +135,25 @@ public class DoctorDAO {
             }
         }
     }
-    public void updateDoctor(Doctor doctor){
+
+    public void updateDoctor(Doctor doctor) {
         Connection connection = MySQLConnection.getConnection();
-        PreparedStatement ps= null;
-        String query ="UPDATE doctors SET first_name=?,last_name=?,birthday=?,experience=?,available=? WHERE id=?";
-        try{
+        PreparedStatement ps = null;
+        String query = "UPDATE doctors SET first_name=?,last_name=?,birthday=?,experience=?,available=? WHERE id=?";
+        try {
             ps = connection.prepareStatement(query);
-            ps.setString(1,doctor.getFirstName());
-            ps.setString(2,doctor.getLastName());
-            ps.setDate(3,new Date(doctor.getBirthDate().toDate().getTime()));
-            ps.setInt(4,doctor.getExperience());
-            ps.setString(5,(doctor.getAvailable() ? "Y" : "N"));
-            ps.setLong(6,doctor.getId());
+            ps.setString(1, doctor.getFirstName());
+            ps.setString(2, doctor.getLastName());
+            ps.setDate(3, new Date(doctor.getBirthDate().toDate().getTime()));
+            ps.setInt(4, doctor.getExperience());
+            ps.setString(5, (doctor.getAvailable() ? "Y" : "N"));
+            ps.setLong(6, doctor.getId());
             ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
     public void updateDoctorAvailable() {
         PreparedStatement statement = null;
         Connection connection = MySQLConnection.getConnection();
@@ -144,7 +172,6 @@ public class DoctorDAO {
             }
         }
     }
-
 
 
     public void deleteDoctor(int id) {
