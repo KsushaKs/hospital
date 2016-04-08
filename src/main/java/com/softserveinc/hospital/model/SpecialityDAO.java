@@ -1,6 +1,7 @@
 package com.softserveinc.hospital.model;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 /**
  * Created by ksu on 05.04.16.
@@ -14,6 +15,23 @@ public class SpecialityDAO {
     private static final String CREATE_SPECIALITY = "CREATE TABLE speciality (id int NOT NULL auto_increment, " +
             "title VARCHAR(45),PRIMARY KEY (id))";
     private static final String GET_ID_BY_TITLE = "SELECT id FROM speciality WHERE title=?";
+    private static final String GET_SPECIALITY = "SELECT * FROM speciality";
+    public ArrayList<Specialities> getSpeciality(){
+        ArrayList<Specialities> specs = new ArrayList<>();
+        try {
+            Statement statement = MySQLConnection.getConnection().createStatement();
+            ResultSet rs = statement.executeQuery(GET_SPECIALITY);
+            while (rs.next()) {
+                Specialities speciality = new Specialities();
+                speciality.setId(rs.getLong("id"));
+                speciality.setTitle(rs.getString("title"));
+                specs.add(speciality);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return specs;
+    }
     public int getIdByTitle(){
         Connection connection = MySQLConnection.getConnection();
         ResultSet resultSet = null;

@@ -5,6 +5,7 @@ package com.softserveinc.hospital.model;
  */
 public class Specialities {
     private String title;
+    private Long id;
     public Specialities(){}
     public Specialities(String title){
         this.title=title;
@@ -15,6 +16,12 @@ public class Specialities {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+    public Long getId(){
+        return id;
+    }
+    public void setId(Long id){
+        this.id = id;
     }
 @Override
     public String toString(){

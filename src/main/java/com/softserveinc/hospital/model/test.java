@@ -20,13 +20,13 @@ public class test {
         jaxbDoctor.writeToFile(doctor, "Arax");
         JSONDoctor jsonDoctor = new JSONDoctor();
         jsonDoctor.writeToFile(doctor, "/home/ksu/workspace/hospital/Ara.json");
-        TXTDoctor txtDoctor = new TXTDoctor();
+        TXTDoctor tx = new TXTDoctor();
         Doctor x = jsonDoctor.readFromFile("/home/ksu/workspace/hospital/Ara.json");
         DoctorDAO doctorDAO = new DoctorDAO();
         SpecialityDAO spDAO = new SpecialityDAO();
         BindingDAO bindingDAO = new BindingDAO();
-        bindingDAO.deleteBinding();
-        bindingDAO.createBinding();
+        //bindingDAO.deleteBinding();
+        //bindingDAO.createBinding();
         System.out.println(doctor);
         //bindingDAO.setBinding(x);
         //System.out.println(doctorDAO.getByID());
@@ -35,6 +35,7 @@ public class test {
         smith.setBirthDate(new LocalDate(1988, 02, 9));
         //doctorDAO.setDoctor(smith);
         //bindingDAO.setBinding(smith);
+        System.out.println(spDAO.getSpeciality());
         int a = 1;
     }
 }
