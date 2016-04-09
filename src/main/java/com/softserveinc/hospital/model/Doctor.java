@@ -19,7 +19,7 @@ public class Doctor {
     private String lastName;
     private Integer experience;
     private ArrayList<Specialities> specialties;
-    private Boolean isAvailable;
+    private Boolean available;
     @JsonSerialize(using =LocalDateJSONSerializer.class )
     @JsonDeserialize(using = LocalDateJSONDeserializer.class)
     private LocalDate birthDate;
@@ -83,11 +83,11 @@ public class Doctor {
 
     @XmlElement
     public Boolean getAvailable() {
-        return isAvailable;
+        return available;
     }
 
     public void setAvailable(Boolean isAvailable) {
-        this.isAvailable = isAvailable;
+        this.available = isAvailable;
     }
 
     public Doctor() {
@@ -99,7 +99,7 @@ public class Doctor {
         this.firstName = firstName;
         this.lastName = lastName;
         this.experience = experience;
-        this.isAvailable = isAvailable;
+        this.available = isAvailable;
         this.specialties = specialties;
 
     }
@@ -116,7 +116,7 @@ public class Doctor {
         if (lastName != null ? !lastName.equals(doctor.lastName) : doctor.lastName != null) return false;
         if (experience != null ? !experience.equals(doctor.experience) : doctor.experience != null) return false;
         if (specialties != null ? !specialties.equals(doctor.specialties) : doctor.specialties != null) return false;
-        return isAvailable != null ? isAvailable.equals(doctor.isAvailable) : doctor.isAvailable == null;
+        return available != null ? available.equals(doctor.available) : doctor.available == null;
 
     }
 
@@ -128,7 +128,7 @@ public class Doctor {
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (experience != null ? experience.hashCode() : 0);
         result = 31 * result + (specialties != null ? specialties.hashCode() : 0);
-        result = 31 * result + (isAvailable != null ? isAvailable.hashCode() : 0);
+        result = 31 * result + (available != null ? available.hashCode() : 0);
         return result;
     }
 
@@ -146,7 +146,7 @@ public class Doctor {
             specToString = sb.append(specialty).append(", ").toString();
         }
         specToString = sb.delete(specToString.length() - 2, specToString.length()).toString();
-        toReturn = this.firstName + " " + this.lastName + " [" + this.birthDate + "] (" + this.experience + "," + (this.isAvailable ? 'Y' : 'N') + "):{" + specToString + "}";
+        toReturn = this.firstName + " " + this.lastName + " [" + this.birthDate + "] (" + this.experience + "," + (this.available ? 'Y' : 'N') + "):{" + specToString + "}";
         return toReturn;
     }
 }

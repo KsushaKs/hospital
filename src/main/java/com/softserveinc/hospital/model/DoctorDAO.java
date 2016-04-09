@@ -51,7 +51,7 @@ public class DoctorDAO {
 
     public ArrayList<Doctor> getDoctors() {
         ArrayList<Doctor> doctors = new ArrayList<>();
-        String query = "SELECT * FROM doctors";
+        String query = "SELECT * FROM doctors ";
         try {
             Statement statement = MySQLConnection.getConnection().createStatement();
             ResultSet rs = statement.executeQuery(query);
@@ -95,8 +95,12 @@ public class DoctorDAO {
         return doctor;
     }
 
-    private Doctor getDoc(ResultSet rs) {
+    private Doctor getDoc(ResultSet rs) throws SQLException {
         Doctor doctor = new Doctor();
+        ArrayList<Specialities> spec = new ArrayList<>();
+        while (rs.next()){
+            spec.add(new Specialities(rs.getString("speciality")));
+        }
         try {
             doctor.setId((long) rs.getInt("id"));
             doctor.setFirstName(rs.getString("first_name"));
@@ -104,7 +108,7 @@ public class DoctorDAO {
             doctor.setBirthDate(LocalDate.parse(rs.getString("birthday"), DateTimeFormat.forPattern("yyyy-MM-dd")));
             doctor.setExperience(rs.getInt("experience"));
             doctor.setAvailable(rs.getString("available").equalsIgnoreCase("Y"));
-            doctor.setSpecialties(new ArrayList<Specialities>(Arrays.asList(new Specialities(), new Specialities())));
+            doctor.setSpecialties(spec);
         } catch (Exception e) {
             e.printStackTrace();
         }

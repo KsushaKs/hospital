@@ -1,19 +1,38 @@
 package com.softserveinc.hospital.model;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 /**
  * Created by ksu on 05.04.16.
  */
 public class BindingDAO {
     private static final String CREATE_BINDING = "CREATE TABLE binding (id int NOT NULL auto_increment," +
-            " id_speciality int, id_doctor int, PRIMARY KEY (id), " +
-            "foreign key (id_speciality) REFERENCES speciality(id), " +
-            "FOREIGN KEY (id_doctor) REFERENCES doctors(id)) ";
+            " id_speciality int NOT NULL, id_doctor int NOT NULL, PRIMARY KEY (id), " +
+            "FOREIGN KEY (id_speciality) REFERENCES speciality(id) ON UPDATE CASCADE ON DELETE RESTRICT, " +
+            "FOREIGN KEY (id_doctor) REFERENCES doctors(id)) " +
+            "ON UPDATE RESTRICT ON DELETE CASCADE";
     private static final String DROP_BINDING = "DROP TABLE binding";
     private static final String SET_SPECIALITY_ID = "INSERT INTO binding (id_speciality) VALUES(?)";
     private static final String SET_BINDING = "INSERT INTO binding(id_speciality,id_doctor)" +
             "VALUES ((SELECT id FROM speciality WHERE title=?),?)";
+    private static final String GET_BINDING_BY_DOCTOR= "SELECT id_speciality FROM binding WHERE id_doctor=?";
+    public ArrayList<Long> getBinding(int id){
+        ArrayList<Long> bindings = new ArrayList<>();
+        try {
+            Connection connection = MySQLConnection.getConnection();
+            PreparedStatement ps = connection.prepareStatement(GET_BINDING_BY_DOCTOR);
+            ps.setLong(1,id);
+            ps.execute();
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                bindings.add(rs.getLong("id_speciality"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return bindings;
+    }
     public void setBinding(Doctor doctor){
         Connection connection = MySQLConnection.getConnection();
         PreparedStatement ps = null;

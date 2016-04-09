@@ -25,8 +25,6 @@ public class test {
         DoctorDAO doctorDAO = new DoctorDAO();
         SpecialityDAO spDAO = new SpecialityDAO();
         BindingDAO bindingDAO = new BindingDAO();
-        //bindingDAO.deleteBinding();
-        //bindingDAO.createBinding();
         System.out.println(doctor);
         //bindingDAO.setBinding(x);
         //System.out.println(doctorDAO.getByID());
@@ -35,7 +33,19 @@ public class test {
         smith.setBirthDate(new LocalDate(1988, 02, 9));
         //doctorDAO.setDoctor(smith);
         //bindingDAO.setBinding(smith);
-        System.out.println(spDAO.getSpeciality());
+        //System.out.println(spDAO.getSpeciality());
+        ArrayList<Doctor>doctors = doctorDAO.getDoctors();
+        for(Doctor doc: doctors){
+            System.out.println(doc);}
+        System.out.println(doctors.get(0).getAvailable());
+        System.out.println(doctors.get(0).getBirthDate());
+        System.out.println(bindingDAO.getBinding(4));
+        //bindingDAO.deleteBinding();
+        //bindingDAO.createBinding();
+        //bindingDAO.setBinding(doctor);
+        for(Specialities s:doctor.getSpecialties()){
+            System.out.println(s.toString());
+        }
         int a = 1;
     }
 }
