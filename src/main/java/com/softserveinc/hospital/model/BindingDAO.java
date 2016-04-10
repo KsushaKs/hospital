@@ -10,8 +10,8 @@ public class BindingDAO {
     private static final String CREATE_BINDING = "CREATE TABLE binding (id int NOT NULL auto_increment," +
             " id_speciality int NOT NULL, id_doctor int NOT NULL, PRIMARY KEY (id), " +
             "FOREIGN KEY (id_speciality) REFERENCES speciality(id) ON UPDATE CASCADE ON DELETE RESTRICT, " +
-            "FOREIGN KEY (id_doctor) REFERENCES doctors(id)) " +
-            "ON UPDATE RESTRICT ON DELETE CASCADE";
+            "FOREIGN KEY (id_doctor) REFERENCES doctors(id) " +
+            "ON UPDATE RESTRICT ON DELETE CASCADE) ";
     private static final String DROP_BINDING = "DROP TABLE binding";
     private static final String SET_SPECIALITY_ID = "INSERT INTO binding (id_speciality) VALUES(?)";
     private static final String SET_BINDING = "INSERT INTO binding(id_speciality,id_doctor)" +
@@ -39,7 +39,7 @@ public class BindingDAO {
         try{
             for(Specialities spec : doctor.getSpecialties()){
             ps = connection.prepareStatement(SET_BINDING);
-            ps.setString(1,spec.toString());
+            ps.setString(1,spec.getTitle());
             ps.setLong(2,doctor.getId());
             ps.execute();}
         } catch (SQLException e) {

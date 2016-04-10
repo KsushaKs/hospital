@@ -30,7 +30,7 @@ public class DoctorDAO {
     public void createDoctors() {
         Connection connection = MySQLConnection.getConnection();
         PreparedStatement ps = null;
-        try{
+        try {
             ps = connection.prepareStatement(CREATE_DOCTORS);
             ps.execute();
         } catch (SQLException e) {
@@ -51,12 +51,29 @@ public class DoctorDAO {
 
     public ArrayList<Doctor> getDoctors() {
         ArrayList<Doctor> doctors = new ArrayList<>();
-        String query = "SELECT * FROM doctors ";
+        String query = "SELECT d.id, d.first_name,d.last_name,d.birthday,d.experience,d.available,s.title " +
+                "FROM doctors as d join binding as b on d.id=b.id_doctor " +
+                "join speciality as s on b.id_speciality= s.id where d.id=b.id_doctor;";
+        ResultSet rs;
+        Statement statement = null;
         try {
-            Statement statement = MySQLConnection.getConnection().createStatement();
-            ResultSet rs = statement.executeQuery(query);
+            statement = MySQLConnection.getConnection().createStatement();
+            rs = statement.executeQuery(query);
+
             while (rs.next()) {
-                doctors.add(getDoc(rs));
+                Doctor doctor = new Doctor();
+                Long k = rs.getLong("id");
+                doctor.setId(k);
+                doctor.setFirstName(rs.getString("first_name"));
+                doctor.setLastName(rs.getString("last_name"));
+                doctor.setBirthDate(LocalDate.parse(rs.getString("birthday"), DateTimeFormat.forPattern("yyyy-MM-dd")));
+                doctor.setExperience(rs.getInt("experience"));
+                doctor.setAvailable(rs.getString("available").equalsIgnoreCase("Y"));
+                ArrayList<Specialities> spec = new ArrayList();
+                spec.add(new Specialities(rs.getString("title")));
+                doctor.setSpecialties(spec);
+                Long l = rs.getLong("id");
+                doctors.add(doctor);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -95,24 +112,42 @@ public class DoctorDAO {
         return doctor;
     }
 
-    private Doctor getDoc(ResultSet rs) throws SQLException {
+    private static Doctor getDoc(ResultSet rs) throws SQLException {
         Doctor doctor = new Doctor();
-        ArrayList<Specialities> spec = new ArrayList<>();
-        while (rs.next()){
-            spec.add(new Specialities(rs.getString("speciality")));
-        }
         try {
-            doctor.setId((long) rs.getInt("id"));
-            doctor.setFirstName(rs.getString("first_name"));
-            doctor.setLastName(rs.getString("last_name"));
-            doctor.setBirthDate(LocalDate.parse(rs.getString("birthday"), DateTimeFormat.forPattern("yyyy-MM-dd")));
-            doctor.setExperience(rs.getInt("experience"));
-            doctor.setAvailable(rs.getString("available").equalsIgnoreCase("Y"));
-            doctor.setSpecialties(spec);
+            while (rs.next()) {
+                doctor.setId(rs.getLong("id"));
+                doctor.setFirstName(rs.getString("first_name"));
+                doctor.setLastName(rs.getString("last_name"));
+                doctor.setBirthDate(LocalDate.parse(rs.getString("birthday"), DateTimeFormat.forPattern("yyyy-MM-dd")));
+                doctor.setExperience(rs.getInt("experience"));
+                doctor.setAvailable(rs.getString("available").equalsIgnoreCase("Y"));
+                ArrayList<Specialities> spec = new ArrayList<>();
+                spec.add(new Specialities(rs.getString("title")));
+                doctor.setSpecialties(spec);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return doctor;
+    }
+
+    public static void main(String[] args) {
+        Statement statement = null;
+        Connection connection = MySQLConnection.getConnection();
+        ResultSet rs;
+        String query = "SELECT d.id, d.first_name,d.last_name,d.birthday,d.experience,d.available,s.title " +
+                "FROM doctors as d join binding as b on d.id=b.id_doctor " +
+                "join speciality as s on b.id_speciality= s.id where d.id=b.id_doctor;";
+        try {
+            statement = connection.createStatement();
+            rs = statement.executeQuery(query);
+            Doctor doctor = getDoc(rs);
+            System.out.println(doctor);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setDoctor(Doctor doctor) {

@@ -25,7 +25,7 @@ public class test {
         DoctorDAO doctorDAO = new DoctorDAO();
         SpecialityDAO spDAO = new SpecialityDAO();
         BindingDAO bindingDAO = new BindingDAO();
-        System.out.println(doctor);
+        //System.out.println(doctor);
         //bindingDAO.setBinding(x);
         //System.out.println(doctorDAO.getByID());
         Doctor doctor1 = new Doctor();
@@ -34,18 +34,19 @@ public class test {
         //doctorDAO.setDoctor(smith);
         //bindingDAO.setBinding(smith);
         //System.out.println(spDAO.getSpeciality());
-        ArrayList<Doctor>doctors = doctorDAO.getDoctors();
-        for(Doctor doc: doctors){
-            System.out.println(doc);}
+       ArrayList<Doctor>doctors = doctorDAO.getDoctors();
+           System.out.println(doctors.size());
         System.out.println(doctors.get(0).getAvailable());
-        System.out.println(doctors.get(0).getBirthDate());
-        System.out.println(bindingDAO.getBinding(4));
+        System.out.println(doctors);
+       // System.out.println(bindingDAO.getBinding(4));
         //bindingDAO.deleteBinding();
-        //bindingDAO.createBinding();
-        //bindingDAO.setBinding(doctor);
-        for(Specialities s:doctor.getSpecialties()){
-            System.out.println(s.toString());
-        }
+        //doctorDAO.setDoctor(smith);
+        //bindingDAO.setBinding(smith);
+        //System.out.println(smith.getId());
+        //System.out.println(doctor.getId());
+        //doctorDAO.setDoctor(doctor);
+        ArrayList<Specialities>sp = spDAO.getSpeciality();
+        System.out.println(sp.get(1));
         int a = 1;
     }
 }
