@@ -12,22 +12,36 @@
     <title>Specialities</title>
 </head>
 <body>
-${specialities}
-fff
+<form action="/ss">
+    <input name="action" type="submit" value="Specialities"/>
+</form>
 <table border="1" cellpadding="1" cellspacing="1">
     <tr>
         <th>id</th>
         <th>Title</th>
+        <th>action</th>
     </tr>
     <c:forEach  var="speciality" items="${specialities}">
         <tr>
             <td>${speciality.id}</td>
             <td>
-                ${speciality.title}
+                <a href="/ss?action=spec&title=${speciality.title}">${speciality.title}</a>
+            </td>
+            <td>
+                <input name="action" type="submit" value="edit">
             </td>
         </tr>
     </c:forEach>
+
 </table>
+<form action="/ss"  >
+    <input name="title" type="text" value="${speciality.title}">
+    <input name="action" type="submit" value="add">
+</form>
+<form action="/ss" >
+    <input name="action" type="submit" value="delete">
+</form>
+
 
 </body>
 </html>

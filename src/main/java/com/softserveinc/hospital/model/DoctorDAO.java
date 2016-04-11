@@ -51,6 +51,33 @@ public class DoctorDAO {
 
     public ArrayList<Doctor> getDoctors() {
         ArrayList<Doctor> doctors = new ArrayList<>();
+        String query = "SELECT * FROM doctors";
+        ResultSet rs;
+        Statement statement = null;
+        try {
+            statement = MySQLConnection.getConnection().createStatement();
+            rs = statement.executeQuery(query);
+            while (rs.next()) {
+                Doctor doctor = new Doctor();
+                ArrayList<Specialities> spec = new ArrayList();
+                doctor.setSpecialties(spec);
+                doctor.setId(rs.getLong("id"));
+                doctor.setFirstName(rs.getString("first_name"));
+                doctor.setLastName(rs.getString("last_name"));
+                doctor.setBirthDate(LocalDate.parse(rs.getString("birthday"), DateTimeFormat.forPattern("yyyy-MM-dd")));
+                doctor.setExperience(rs.getInt("experience"));
+                doctor.setAvailable(rs.getString("available").equalsIgnoreCase("Y"));
+                spec.add(new Specialities());
+                doctors.add(doctor);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return doctors;
+    }
+
+    public ArrayList<Doctor> getDoctorsBySpec() {
+        ArrayList<Doctor> doctors = new ArrayList<>();
         String query = "SELECT d.id, d.first_name,d.last_name,d.birthday,d.experience,d.available,s.title " +
                 "FROM doctors as d join binding as b on d.id=b.id_doctor " +
                 "join speciality as s on b.id_speciality= s.id where d.id=b.id_doctor;";
@@ -59,20 +86,19 @@ public class DoctorDAO {
         try {
             statement = MySQLConnection.getConnection().createStatement();
             rs = statement.executeQuery(query);
-
+            long k = 0L;
             while (rs.next()) {
                 Doctor doctor = new Doctor();
-                Long k = rs.getLong("id");
+                ArrayList<Specialities> spec = new ArrayList();
+                doctor.setSpecialties(spec);
+                k = rs.getLong("id");
                 doctor.setId(k);
                 doctor.setFirstName(rs.getString("first_name"));
                 doctor.setLastName(rs.getString("last_name"));
                 doctor.setBirthDate(LocalDate.parse(rs.getString("birthday"), DateTimeFormat.forPattern("yyyy-MM-dd")));
                 doctor.setExperience(rs.getInt("experience"));
                 doctor.setAvailable(rs.getString("available").equalsIgnoreCase("Y"));
-                ArrayList<Specialities> spec = new ArrayList();
                 spec.add(new Specialities(rs.getString("title")));
-                doctor.setSpecialties(spec);
-                Long l = rs.getLong("id");
                 doctors.add(doctor);
             }
         } catch (SQLException e) {
@@ -151,23 +177,39 @@ public class DoctorDAO {
     }
 
     public void setDoctor(Doctor doctor) {
-        Connection connection = MySQLConnection.getConnection();
-        PreparedStatement ps = null;
+        Connection dbConnection = null;
+        PreparedStatement preparedStatementInsert = null;
+        PreparedStatement preparedStatementUpdate = null;
+        String insertTableSQL = INSERT_DOCTOR;
+        String updateTableSQL = "INSERT INTO binding(id_speciality,id_doctor)" +
+                "VALUES ((SELECT id FROM speciality WHERE title=?),?)";
         try {
-            ps = connection.prepareStatement(INSERT_DOCTOR);
-            ps.setLong(1, doctor.getId());
-            ps.setString(2, doctor.getFirstName());
-            ps.setString(3, doctor.getLastName());
-            ps.setDate(4, new Date(doctor.getBirthDate().toDate().getTime()));
-            ps.setInt(5, doctor.getExperience());
-            ps.setString(6, (doctor.getAvailable() ? "Y" : "N"));
-            ps.executeUpdate();
+            dbConnection = MySQLConnection.getConnection();
+
+            dbConnection.setAutoCommit(false);
+            preparedStatementInsert = dbConnection.prepareStatement(INSERT_DOCTOR);
+            preparedStatementInsert.setLong(1, doctor.getId());
+            preparedStatementInsert.setString(2, doctor.getFirstName());
+            preparedStatementInsert.setString(3, doctor.getLastName());
+            preparedStatementInsert.setDate(4, new Date(doctor.getBirthDate().toDate().getTime()));
+            preparedStatementInsert.setInt(5, doctor.getExperience());
+            preparedStatementInsert.setString(6, (doctor.getAvailable() ? "Y" : "N"));
+            preparedStatementInsert.executeUpdate();
+
+
+            for (Specialities spec : doctor.getSpecialties()) {
+                preparedStatementUpdate = dbConnection.prepareStatement(updateTableSQL);
+                preparedStatementUpdate.setString(1, spec.getTitle());
+                preparedStatementUpdate.setLong(2, doctor.getId());
+                preparedStatementUpdate.executeUpdate();
+            }
+            dbConnection.commit();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
-                if (connection != null) {
-                    connection.close();
+                if (dbConnection != null) {
+                    dbConnection.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

@@ -44,9 +44,15 @@ public class MainServlet extends HttpServlet {
                 request.setAttribute("page", "Doctors");
                 request.setAttribute("doctors", dataList);
                 request.getRequestDispatcher("doctors.jsp").forward(request, response);
+            break;
+            case "delete":
+                int id = Integer.parseInt(request.getParameter("id"));
+                dDAO.deleteDoctor(id);
+                response.sendRedirect("ms?action=Doctors");
+                break;
             default:
                 int act = Integer.parseInt(action);
-                dataList = bDAO.getBinding(act);
+                dataList = bDAO.getDocBySpec((long)act);
                 request.setAttribute("id_doctor",act);
                 request.setAttribute("page","Binding");
                 request.setAttribute("binding", dataList);

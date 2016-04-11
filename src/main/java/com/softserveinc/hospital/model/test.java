@@ -34,7 +34,7 @@ public class test {
         //doctorDAO.setDoctor(smith);
         //bindingDAO.setBinding(smith);
         //System.out.println(spDAO.getSpeciality());
-       ArrayList<Doctor>doctors = doctorDAO.getDoctors();
+       ArrayList<Doctor>doctors = doctorDAO.getDoctorsBySpec();
            System.out.println(doctors.size());
         System.out.println(doctors.get(0).getAvailable());
         System.out.println(doctors);
@@ -47,6 +47,9 @@ public class test {
         //doctorDAO.setDoctor(doctor);
         ArrayList<Specialities>sp = spDAO.getSpeciality();
         System.out.println(sp.get(1));
+        ArrayList<Doctor> doctors1 = spDAO.getDocBySpeciality("one");
+        System.out.println(doctors1.size());
+        System.out.println(doctors1.get(1));
         int a = 1;
     }
 }
