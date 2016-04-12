@@ -26,7 +26,7 @@ public class SpServlet extends HttpServlet {
         if (action.equals("add")) {
             sDAO.setTitle(request.getParameter("title"));
             response.sendRedirect("ms?action=Specialities");
-        } else if (action.equals("delete")) {
+        } else if (action.equals("delete empty")) {
             sDAO.deleteEmptySpeciality();
             response.sendRedirect("ms?action=Specialities");
         }else if(action.equals("spec")){
@@ -39,7 +39,7 @@ public class SpServlet extends HttpServlet {
     }
 
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String action = request.getParameter("delete");
+        String action = request.getParameter("delete empty");
         SpecialityDAO sDAO = new SpecialityDAO();
         sDAO.deleteEmptySpeciality();
         response.sendRedirect("ms?action=Specialities");
