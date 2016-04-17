@@ -33,6 +33,9 @@ public class SpServlet extends HttpServlet {
             ArrayList<Doctor>doctors = sDAO.getDocBySpeciality(request.getParameter("title"));
             request.setAttribute("doctors",doctors);
             request.getRequestDispatcher("filterDocBySpec.jsp").forward(request, response);
+        }else if(action.equals("edit")){
+            sDAO.updateTitle(request.getParameter("title"),Long.parseLong(request.getParameter("id")));
+            response.sendRedirect("ms?action=Specialities");
         }
 
 

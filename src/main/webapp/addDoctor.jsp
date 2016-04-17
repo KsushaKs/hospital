@@ -19,45 +19,38 @@
 
     <title>add Doctor</title>
 
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="${pageContext.request.contextPath}/css/bootstrap-datetimepicker.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/form-elements.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/validNewDoctor.css">
 
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="${pageContext.request.contextPath}/css/bootstrap-datetimepicker.min.css"/>
-    <script src="${pageContext.request.contextPath}/js/jquery-2.1.4.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/moment-with-locales.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/bootstrap-datetimepicker.min.js"></script>
+
+    <script src="js/jquery-1.12.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type='text/javascript' src='js/validNewDoctor.js'></script>
+
 </head>
 <body>
-<form  method="post" action="/addDoctor" >
-    First Name : <input type="text" name="firstName"/>
+<form id='testForm1' method="post" action='/addDoctor' onsubmit='return cFM_checktrueAttr($("#testForm1"));'>
+    First Name : <input type='text' name="firstName" cfm_check='Y_name' title='first name' />
     <br/>
-    Last Name : <input type="text" name="lastName"  /> <br/>
-    DOB : <input
-        type="text" name="dob"/>
+    Last Name : <input type='text' name="lastName" cfm_check='Y_name' title='last name' /> <br/>
+    DOB : <input type="text" name="dob" cfm_check='Y_date' title='date of birth'/>
     <br/>
-    Experience : <input type="text" name="experience"/><br/>
-    Available : <input type="text" name="available"/><br/>
-    Speciality :<input type="text" name="speciality"/>
+    Experience : <input type='text' name="experience" cfm_check='Y_num' title='experience' /><br/>
+    Available : <input type="text" name="available" cfm_check='Y' title='available'/><br/>
+    Speciality :<input type='text' name="speciality" cfm_check='Y' title='speciality'/>
     <br/>
     <input type="submit" value="Submit"/>
 </form>
+
 <div class="top-content">
 
     <div class="inner-bg">
         <div class="container">
             <div class="row">
                 <div class="col-sm-8 col-sm-offset-2 text">
-                    <h1>Form to add a new analyzes</h1>
+                    <h1>Form to add a new doctor</h1>
                 </div>
             </div>
 
@@ -76,44 +69,45 @@
                         </div>
 
                         <div class="form-bottom">
-                            <form role="form" action="/addDoctor" method="POST" class="registration-form">
+                            <form id='testForm' role="form"  class="registration-form"  method="post" action='/addDoctor' onsubmit='return cFM_checktrueAttr($("#testForm"));'>
+
                                 <div class="form-group">
                                     <label class="sr-only" >Report</label>
-                                    <input type="text" pattern="[A-Z]{1}\D" maxlength="15" class="form-control" placeholder="First Name" name="firstName" size="70"/>
+                                    <input type="text" cfm_check='Y_name' title='first name' maxlength="15"
+                                           class="form-control" placeholder="First Name" name="firstName" size="70"/>
                                 </div>
+
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label sr-only">Report</label>
-                                    <input type="text" class="form-control" placeholder="Last Name" name="lastName" size="70"/>
-                                    <div class="alert alert-danger" role="alert">
-                                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                                    <span class="sr-only">Error:</span>
-                                    Enter a valid name
-                                        </div>
+                                    <input type="text" cfm_check='Y_name' title='last name' class="form-control"
+                                           placeholder="Last Name" name="lastName" size="70"/>
                                 </div>
 
                                 <div class="form-group">
                                     <label  class="col-sm-2 control-label sr-only">Date</label>
-                                    <input type='text' class="form-control"  name="dob"
-                                           placeholder="Date..."/>
+                                    <input type='text' cfm_check='Y_date' title='date of birth' class="form-control"
+                                           name="dob" placeholder="Date..."/>
                                 </div>
                                 <div class="form-group">
                                     <label class="sr-only" for="">Report</label>
-                                    <input type="text" class="form-control"placeholder="Experience" name="experience" size="70"/>
+                                    <input type="text" cfm_check='Y_num' title='experience' class="form-control"placeholder="Experience" name="experience" size="70"/>
                                 </div>
                                 <div class="form-group">
                                     <label class="sr-only" for="">Report</label>
-                                    <input type="text" class="form-control"placeholder="Available" name="available" size="70"/>
+                                    <input type="text" cfm_check='Y' title='available' class="form-control"placeholder="Available" name="available" size="70"/>
                                 </div>
                                 <div class="form-group">
                                     <label class="sr-only" for="">Report</label>
-                                    <input type="text" class="form-control"placeholder="Speciality" name="speciality" size="70"/>
+                                    <input type="text" cfm_check='Y' title='speciality'
+                                           class="form-control"placeholder="Speciality" name="speciality" size="70"/>
                                 </div>
                                 <div class="form-group">
                                     <label class="sr-only" for="">Report</label>
                                     <textarea name="report" placeholder="Report..." class="form-report form-control"
                                               id=""></textarea>
                                 </div>
-                                <button type="submit" class="btn">Add Doctor</button>
+                                <button type="submit" class="btn" name="action" value="Submit">Add Doctor</button>
+
                                 <input type="hidden" name="id" value="">
                             </form>
 

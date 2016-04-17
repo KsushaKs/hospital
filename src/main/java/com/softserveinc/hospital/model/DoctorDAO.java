@@ -1,7 +1,9 @@
 package com.softserveinc.hospital.model;
 
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.Years;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -10,6 +12,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Formatter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by ksu on 04.04.16.
@@ -18,8 +22,8 @@ public class DoctorDAO {
 
     private static final String SELECT_BY_ID = "SELECT * FROM doctors WHERE id=%d";
     private static final String INSERT_DOCTOR = "INSERT INTO doctors " +
-            "(id,first_name, last_name, birthday, experience, available) " +
-            "VALUES (?,?, ?, ?, ?, ?)";
+            "(first_name, last_name, birthday, experience, available) " +
+            "VALUES (?, ?, ?, ?, ?)";
     private static final String DELETE_DOCTOR = "DELETE FROM doctors WHERE id=?";
     private static final String CREATE_DOCTORS = "CREATE TABLE doctors " +
             "(id int NOT NULL UNIQUE ,first_name VARCHAR (45), last_name VARCHAR (45), " +
@@ -180,27 +184,33 @@ public class DoctorDAO {
         Connection dbConnection = null;
         PreparedStatement preparedStatementInsert = null;
         PreparedStatement preparedStatementUpdate = null;
-        String insertTableSQL = INSERT_DOCTOR;
-        String updateTableSQL = "INSERT INTO binding(id_speciality,id_doctor)" +
-                "VALUES ((SELECT id FROM speciality WHERE title=?),?)";
+        PreparedStatement specSt=null;
+        String updateSp = "INSERT IGNORE INTO speciality(title) VALUES(?)";
+        String updateTableSQL = "INSERT IGNORE INTO binding(id_speciality,id_doctor)" +
+                "VALUES ((SELECT id FROM speciality WHERE title=?),@lastID)";
         try {
             dbConnection = MySQLConnection.getConnection();
 
             dbConnection.setAutoCommit(false);
             preparedStatementInsert = dbConnection.prepareStatement(INSERT_DOCTOR);
-            preparedStatementInsert.setLong(1, doctor.getId());
-            preparedStatementInsert.setString(2, doctor.getFirstName());
-            preparedStatementInsert.setString(3, doctor.getLastName());
-            preparedStatementInsert.setDate(4, new Date(doctor.getBirthDate().toDate().getTime()));
-            preparedStatementInsert.setInt(5, doctor.getExperience());
-            preparedStatementInsert.setString(6, (doctor.getAvailable() ? "Y" : "N"));
+           // preparedStatementInsert.setLong(1, doctor.getId());
+            preparedStatementInsert.setString(1,doctor.getFirstName());
+            preparedStatementInsert.setString(2, doctor.getLastName());
+            preparedStatementInsert.setDate(3, new Date(doctor.getBirthDate().toDate().getTime()));
+            preparedStatementInsert.setInt(4, doctor.getExperience());
+            preparedStatementInsert.setString(5, (doctor.getAvailable() ? "Y" : "N"));
+            preparedStatementInsert.executeUpdate();
+            preparedStatementInsert = dbConnection.prepareStatement("SET @lastID := LAST_INSERT_ID()");
             preparedStatementInsert.executeUpdate();
 
-
+            for(Specialities specialities:doctor.getSpecialties()){
+                specSt = dbConnection.prepareStatement(updateSp);
+                specSt.setString(1,specialities.getTitle());
+                specSt.executeUpdate();
+            }
             for (Specialities spec : doctor.getSpecialties()) {
                 preparedStatementUpdate = dbConnection.prepareStatement(updateTableSQL);
                 preparedStatementUpdate.setString(1, spec.getTitle());
-                preparedStatementUpdate.setLong(2, doctor.getId());
                 preparedStatementUpdate.executeUpdate();
             }
             dbConnection.commit();
@@ -275,6 +285,21 @@ public class DoctorDAO {
                 }
             }
         }
+    }
+    private Boolean isValidDate(String date) {
+        DateTime dateTime = DateTime.parse(date);
+        DateTime dt = new DateTime();
+        int diff = Years.yearsBetween(dateTime,dt).getYears();
+        if(diff>=20){
+            return true;
+        }
+        return false;
+    }
+
+    private Boolean isValid(String str) {
+        Pattern p = Pattern.compile("^[A-Z][a-z]+\\s[A-Z][a-z]+\\s\\[\\d{4}\\W\\d{2}\\W\\d{2}]\\s\\([0-9]+,[X|Y]\\):\\{[a-z]+,[a-z]+\\}$");
+        Matcher m = p.matcher(str);
+        return m.matches();
     }
 }
 

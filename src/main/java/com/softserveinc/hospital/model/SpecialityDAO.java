@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class SpecialityDAO {
     private static final String SET_SPECIALITY = "INSERT INTO speciality (title) VALUES (?) ";
     private static final String DELETE_SPECIALITY = "DROP TABLE speciality";
-
+    private static final String UPDATE_SPECIALITY="UPDATE speciality SET title=? where id=?";
     private static final String DELETE_EMPTY_SPECIALITY = "DELETE FROM speciality WHERE id"
             + " NOT IN (SELECT DISTINCT id_speciality FROM binding)";
     private static final String CREATE_SPECIALITY = "CREATE TABLE speciality (id int NOT NULL auto_increment, " +
@@ -64,6 +64,17 @@ public class SpecialityDAO {
             e.printStackTrace();
         }
         return specs;
+    }
+    public void updateTitle(String title, long id){
+        Connection connection = MySQLConnection.getConnection();
+        try{
+            PreparedStatement ps = connection.prepareStatement(UPDATE_SPECIALITY);
+            ps.setString(1,title);
+            ps.setLong(2,id);
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     public void setTitle(String title){
         Connection connection = MySQLConnection.getConnection();

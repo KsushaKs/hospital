@@ -25,31 +25,11 @@ public class test {
         DoctorDAO doctorDAO = new DoctorDAO();
         SpecialityDAO spDAO = new SpecialityDAO();
         BindingDAO bindingDAO = new BindingDAO();
-        //System.out.println(doctor);
-        //bindingDAO.setBinding(x);
-        //System.out.println(doctorDAO.getByID());
         Doctor doctor1 = new Doctor();
-        Doctor smith = new Doctor("John", "Smith", 10, specialties, false);
+        Doctor smith = new Doctor("Mary", "Brawn", 10, specialties, false);
         smith.setBirthDate(new LocalDate(1988, 02, 9));
-        //doctorDAO.setDoctor(smith);
-        //bindingDAO.setBinding(smith);
-        //System.out.println(spDAO.getSpeciality());
-       ArrayList<Doctor>doctors = doctorDAO.getDoctorsBySpec();
-           System.out.println(doctors.size());
-        System.out.println(doctors.get(0).getAvailable());
-        System.out.println(doctors);
-       // System.out.println(bindingDAO.getBinding(4));
-        //bindingDAO.deleteBinding();
-        //doctorDAO.setDoctor(smith);
-        //bindingDAO.setBinding(smith);
-        //System.out.println(smith.getId());
-        //System.out.println(doctor.getId());
-        //doctorDAO.setDoctor(doctor);
-        ArrayList<Specialities>sp = spDAO.getSpeciality();
-        System.out.println(sp.get(1));
-        ArrayList<Doctor> doctors1 = spDAO.getDocBySpeciality("one");
-        System.out.println(doctors1.size());
-        System.out.println(doctors1.get(1));
+        bindingDAO.createBinding();
+        doctorDAO.setDoctor(smith);
         int a = 1;
     }
 }

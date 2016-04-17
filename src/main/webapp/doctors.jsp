@@ -17,23 +17,15 @@
     <meta name="author" content="">
     <title>Doctors</title>
 
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="${pageContext.request.contextPath}/css/bootstrap-datetimepicker.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/form-elements.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/validNewDoctor.css">
 
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="${pageContext.request.contextPath}/css/bootstrap-datetimepicker.min.css"/>
-    <script src="${pageContext.request.contextPath}/js/jquery-2.1.4.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/moment-with-locales.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="js/jquery-1.12.3.min.js"></script>
+    <script type='text/javascript' src='js/validNewDoctor.js'></script>
+    <script type='text/javascript' src='js/deleteConfim.js'></script>
+    <script src="js/bootstrap.min.js"></script>
 </head>
 <body>
 
@@ -41,6 +33,23 @@
     <input name="action" type="submit" value="Specialities"/>
     <input name="action" type="submit" value="Doctors"/>
 </form>
+<div id="myModal" class="modal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Delete</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete </p>
+            </div>
+            <div class="modal-footer">
+                <a id="confirm" href="#" class="btn btn-danger">Yes</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container">
     <div class="row">
 
@@ -78,11 +87,21 @@
                                     <c:out value="${doctor.experience}"/>
                                 </td>
                                 <td>
-                                        ${doctor.available}
-                                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+
+                                    <c:if test="${doctor.available}">
+                                        <span class="glyphicon glyphicon-ok" style="color : green"></span>
+                                    </c:if>
+                                    <c:if test="${!doctor.available}">
+                                        <span class="glyphicon glyphicon-remove" style="color:red"></span>
+                                    </c:if>
                                 </td>
                                 <td>
-                                    <a href="/ms?action=delete&id=${doctor.id}">delete</a>
+
+                                    <!--  <a href="/ms?action=delete&id=${doctor.id}"></a>-->
+                                    <button id="${doctor.id}" type="button" data-toggle="modal" data-target="#myModal"
+                                            class="glyphicon glyphicon-trash">
+                                    </button>
+
                                 </td>
                             </form>
                         </tr>
@@ -91,8 +110,10 @@
             </div>
         </div>
     </div>
+
     <form action="/addDoctor">
         <button type="submit" class="btn btn-primary">Add Doctor</button>
     </form>
+</div>
 </body>
 </html>

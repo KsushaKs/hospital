@@ -16,23 +16,17 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Specialities</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="${pageContext.request.contextPath}/css/bootstrap-datetimepicker.min.css"/>
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/form-elements.css">
-    <link rel="stylesheet" href="assets/css/style.css">
 
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="${pageContext.request.contextPath}/css/bootstrap-datetimepicker.min.css"/>
-    <script src="${pageContext.request.contextPath}/js/jquery-2.1.4.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/moment-with-locales.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/bootstrap-datetimepicker.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/validNewDoctor.css">
+
+    <script src="js/jquery-1.12.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/specialityEdit.js"></script>
+
 </head>
 <body>
 <form action="/ss">
@@ -53,11 +47,14 @@
                     <c:forEach var="speciality" items="${specialities}">
                         <tr>
                             <td>${speciality.id}</td>
-                            <td>
-                                <a href="/ss?action=spec&title=${speciality.title}">${speciality.title}</a>
+                            <td >
+                                <a id="title${speciality.id}" data-title="${speciality.title}"
+                                   href="/ss?action=spec&title=${speciality.title}">${speciality.title}</a>
                             </td>
                             <td>
-                                <input name="action" type="submit" value="edit">
+                                <button id="${speciality.id}" class="update" type="button" value="edit"
+                                data-toggle="modal" data-target="#myModal">edit
+                                </button>
                             </td>
                         </tr>
                     </c:forEach>
@@ -74,6 +71,23 @@
         <input name="action" type="submit" value="delete empty">
     </form>
 
+</div>
+
+<div id="myModal" class="modal" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                    <label for="title">title: </label>
+                    <input id="title" class="form-control" type="text"/>
+
+            </div>
+            <div class="modal-footer">
+                <a id="run" href="#" class="btn btn-danger">Update</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
