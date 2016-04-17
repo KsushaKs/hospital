@@ -9,9 +9,8 @@ import org.joda.time.format.DateTimeFormatter;
 
 import javax.print.Doc;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Formatter;
+import java.sql.Date;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -208,9 +207,13 @@ public class DoctorDAO {
                 specSt.setString(1,specialities.getTitle());
                 specSt.executeUpdate();
             }
-            for (Specialities spec : doctor.getSpecialties()) {
+            HashSet<String> strings = new HashSet<>();
+            for(Specialities s:doctor.getSpecialties()){
+                strings.add(s.getTitle());
+            }
+            for (String spec : strings) {
                 preparedStatementUpdate = dbConnection.prepareStatement(updateTableSQL);
-                preparedStatementUpdate.setString(1, spec.getTitle());
+                preparedStatementUpdate.setString(1, spec);
                 preparedStatementUpdate.executeUpdate();
             }
             dbConnection.commit();
