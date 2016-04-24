@@ -1,0 +1,11 @@
+div.cFM_wrong
+{
+    color:red;
+    font-size:10px;
+    position:absolute;
+    width:140px;
+}
+input.cFM_wrong{
+    background: #ffd9d9;
+    border-color:#d3adad;
+}
