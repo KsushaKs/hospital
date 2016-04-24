@@ -6,6 +6,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +44,17 @@ public class SpecialityDAO {
         }
         return sp;
     }
+    @Transactional
+    public void updateSpecialities(String title,long id){
+        Session session =HibernateUtil.getSessionFactory().openSession();
+        try{
+            Specialities s =(Specialities) session.get(Specialities.class,id);
+            s.setTitle(title);
+            session.update(s);
+        }catch (HibernateException e){e.printStackTrace();}finally {
+            session.close();
+        }
+    }
 
     public Specialities getSpecialities(long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -78,6 +90,7 @@ public class SpecialityDAO {
 
     public static void main(String[] args) {
         SpecialityDAO sd = new SpecialityDAO();
+        sd.updateSpecialities("second",45l);
 
     }
 }

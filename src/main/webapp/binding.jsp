@@ -29,36 +29,50 @@
 
 </head>
 <body>
-<table border="1" cellpadding="1" cellspacing="1">
-    <tr>
-        <th>doctor's id</th>
-        <th>first name</th>
-        <th>last name</th>
-        <th>available</th>
-        <th>speciality's id</th>
-
-    </tr>
-
-    <c:forEach var="bind" items="${binding}">
+<form action="/ms">
+    <input name="action" type="submit" value="Specialities"/>
+    <input name="action" type="submit" value="Doctors"/>
+</form>
+<div class="table-responsive">
+    <table class="table table-bordered">
         <tr>
-            <td>
-                ${id_doctor}
-            </td>
-            <td>
-                ${bind.firstName}
-            </td>
-            <td>
-                ${bind.lastName}
-            </td>
-            <td>
-                ${bind.available}
-            </td>
-            <td>
-                ${bind.specialties[0]}
-            </td>
-        </tr>
-    </c:forEach>
-</table>
+            <th>doctor's id</th>
+            <th>first name</th>
+            <th>last name</th>
+            <th>available</th>
+            <th>speciality's id</th>
 
+        </tr>
+
+        <c:forEach var="bind" items="${binding}">
+            <tr>
+                <td>
+                        ${doctor.id}
+                </td>
+                <td>
+                        ${doctor.firstName}
+                </td>
+                <td>
+                        ${doctor.lastName}
+                </td>
+                <td>
+                    <c:if test="${doctor.available}">
+                        <span class="glyphicon glyphicon-ok" style="color : green"></span>
+                    </c:if>
+                    <c:if test="${!doctor.available}">
+                        <span class="glyphicon glyphicon-remove" style="color:red"></span>
+                    </c:if>
+                </td>
+                <td>
+                        ${bind}
+                </td>
+            </tr>
+        </c:forEach>
+    </table>
+</div>
+<form action="/ss">
+    <input name="title" type="text" value="${speciality.title}">
+    <input name="action" type="submit" value="add">
+</form>
 </body>
 </html>

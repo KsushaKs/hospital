@@ -31,6 +31,10 @@
 
 </head>
 <body>
+<form action="/ms">
+    <input name="action" type="submit" value="Specialities"/>
+    <input name="action" type="submit" value="Doctors"/>
+</form>
 <div class="container">
     <div class="row">
 

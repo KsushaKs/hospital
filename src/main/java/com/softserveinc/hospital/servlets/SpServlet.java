@@ -1,7 +1,9 @@
 package com.softserveinc.hospital.servlets;
 
+import com.softserveinc.hospital.DAO.Speciality1DAO;
 import com.softserveinc.hospital.DAO.SpecialityDAO;
 import com.softserveinc.hospital.model.Doctor;
+import com.softserveinc.hospital.model.Specialities;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,18 +25,19 @@ public class SpServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         SpecialityDAO sDAO = new SpecialityDAO();
+        Speciality1DAO s1DAO = new Speciality1DAO();
         if (action.equals("add")) {
-            //sDAO.setTitle(request.getParameter("title"));
+            sDAO.setSpecialities(new Specialities(request.getParameter("title")));
             response.sendRedirect("ms?action=Specialities");
-        } else if (action.equals("delete empty")) {
+        } else if (action.equals("show empty")) {
             // sDAO.deleteEmptySpeciality();
             response.sendRedirect("ms?action=Specialities");
         } else if (action.equals("spec")) {
-          //  ArrayList<Doctor> doctors = sDAO.getDocBySpeciality(request.getParameter("title"));
-           // request.setAttribute("doctors", doctors);
+            ArrayList<Doctor> doctors = s1DAO.getDocBySpeciality(request.getParameter("title"));
+            request.setAttribute("doctors", doctors);
             request.getRequestDispatcher("filterDocBySpec.jsp").forward(request, response);
         } else if (action.equals("edit")) {
-            //  sDAO.updateTitle(request.getParameter("title"),Long.parseLong(request.getParameter("id")));
+            sDAO.updateSpecialities(request.getParameter("title"),Long.parseLong(request.getParameter("id")));
             response.sendRedirect("ms?action=Specialities");
         }
 

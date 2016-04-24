@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by ksu on 07.04.16.
@@ -53,10 +54,11 @@ public class MainServlet extends HttpServlet {
                 break;
             default:
                 int act = Integer.parseInt(action);
-                dataList = bDAO.getDocBySpec((long)act);
-                request.setAttribute("id_doctor",act);
+                Doctor d = dDAO.getDoctor((long)act);
+                Set<Specialities> listSp = dDAO.getDoctor((long)act).getSpecialities();
+                request.setAttribute("doctor",d);
                 request.setAttribute("page","Binding");
-                request.setAttribute("binding", dataList);
+                request.setAttribute("binding", listSp);
                 request.getRequestDispatcher("binding.jsp").forward(request, response);
         }
     }

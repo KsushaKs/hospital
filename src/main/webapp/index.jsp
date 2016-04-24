@@ -33,7 +33,6 @@
 <form action="/ms">
     <input name="action" type="submit" value="Specialities"/>
     <input name="action" type="submit" value="Doctors"/>
-    <input type="submit" value="ggg">
 </form>
 <table border="1" cellpadding="1" cellspacing="1" style="width:500px">
     <tbody>
