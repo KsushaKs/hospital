@@ -5,7 +5,7 @@ import com.softserveinc.hospital.model.Specialities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Set;
 
 public class HospitalData {
     private ArrayList<Doctor> doctors;
@@ -21,8 +21,8 @@ public class HospitalData {
     public ArrayList<Doctor> doctorsBySpec(String speciality){
         ArrayList<Doctor> doctorsSpec = new ArrayList<>();
         for (Doctor doc : doctors){
-            for (int i = 0; i < doc.getSpecialities().size(); i++) {
-                if(doc.getSpecialities().get(i).equals(speciality)){
+            {
+                if(doc.getSpecialities().contains(speciality)){
                     doctorsSpec.add(doc);
                 }
             }
@@ -33,8 +33,8 @@ public class HospitalData {
     private int countSpec(String speciality) {
         int count = 0;
         for (Doctor doc : doctors) {
-            for (int i = 0; i < doc.getSpecialities().size(); i++) {
-                if(doc.getSpecialities().get(i).equals(speciality)){
+             {
+                if(doc.getSpecialities().contains(speciality)){
                     count++;
                 }
             }
@@ -64,9 +64,9 @@ public class HospitalData {
         for (int i = 0; i < titles.size(); i++) {
             String speciality = titles.get(i);
             for (int j = 0; j < doctors.size(); j++) {
-                List<Specialities> doctorSp = doctors.get(j).getSpecialities();
-                for (int k = 0; k < doctorSp.size(); k++) {
-                    if (speciality.equals(doctorSp.get(k))) {
+                Set<Specialities> doctorSp = doctors.get(j).getSpecialities();
+                 {
+                     {
                         int value = countDoctors.get(speciality);
                         value++;
                         countDoctors.put(speciality, value);

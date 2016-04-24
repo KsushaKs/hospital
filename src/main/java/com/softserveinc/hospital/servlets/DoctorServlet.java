@@ -3,8 +3,6 @@ package com.softserveinc.hospital.servlets;
 import com.softserveinc.hospital.model.Doctor;
 import com.softserveinc.hospital.DAO.DoctorDAO;
 import com.softserveinc.hospital.model.Specialities;
-import com.sun.tracing.dtrace.ModuleAttributes;
-import org.hibernate.validator.constraints.ModCheck;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 
@@ -15,7 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by ksu on 11.04.16.
@@ -32,7 +31,7 @@ public class DoctorServlet extends HttpServlet {
         String action = request.getParameter("Submit");
         Doctor doctor = new Doctor();
         DoctorDAO dao = new DoctorDAO();
-        ArrayList<Specialities> sp = new ArrayList<>();
+        Set<Specialities> sp = new HashSet<>();
         doctor.setSpecialities(sp);
         doctor.setFirstName(request.getParameter("firstName"));
         doctor.setLastName(request.getParameter("lastName"));

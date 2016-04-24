@@ -3,8 +3,7 @@ package com.softserveinc.hospital.model;
 import org.hibernate.annotations.SQLInsert;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by ksu on 06.04.16.
@@ -21,17 +20,17 @@ public class Specialities {
     @Column(unique = true,nullable = false)
     private String title;
     @ManyToMany(fetch = FetchType.LAZY,mappedBy = "specialities")
-    private List<Doctor> doctors;
+    private Set<Doctor> doctors;
     public Specialities(){}
     public Specialities(String title){
         this.title=title;
     }
 
-    public List<Doctor> getDoctors() {
+    public Set<Doctor> getDoctors() {
         return doctors;
     }
 
-    public void setDoctors(List<Doctor> doctors) {
+    public void setDoctors(Set<Doctor> doctors) {
         this.doctors = doctors;
     }
 

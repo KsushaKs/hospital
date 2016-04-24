@@ -62,7 +62,7 @@ public class Doctor1DAO {
             rs = statement.executeQuery(query);
             while (rs.next()) {
                 Doctor doctor = new Doctor();
-                ArrayList<Specialities> spec = new ArrayList();
+                Set<Specialities> spec = new HashSet<>();
                 doctor.setSpecialities(spec);
                 doctor.setId(rs.getLong("id"));
                 doctor.setFirstName(rs.getString("first_name"));
@@ -92,7 +92,7 @@ public class Doctor1DAO {
             long k = 0L;
             while (rs.next()) {
                 Doctor doctor = new Doctor();
-                ArrayList<Specialities> spec = new ArrayList();
+                Set<Specialities> spec = new HashSet<>();
                 doctor.setSpecialities(spec);
                 k = rs.getLong("id");
                 doctor.setId(k);
@@ -151,7 +151,7 @@ public class Doctor1DAO {
                 doctor.setBirthDate(LocalDate.parse(rs.getString("birthday"), DateTimeFormat.forPattern("yyyy-MM-dd")));
                 doctor.setExperience(rs.getInt("experience"));
                 doctor.setAvailable(rs.getString("available").equalsIgnoreCase("Y"));
-                ArrayList<Specialities> spec = new ArrayList<>();
+                Set<Specialities> spec = new HashSet<>();
                 spec.add(new Specialities(rs.getString("title")));
                 doctor.setSpecialities(spec);
             }

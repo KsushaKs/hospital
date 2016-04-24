@@ -8,6 +8,8 @@ import org.joda.time.Years;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -78,7 +80,7 @@ public class TXTDoctor implements Convertible {
         doctor.setBirthDate(LocalDate.parse(tokens[2]));}
         doctor.setExperience(Integer.parseInt(tokens[3]));
         doctor.setAvailable(tokens[4].equals("Y"));
-        ArrayList<Specialities> specs = new ArrayList<>();
+        Set<Specialities> specs = new HashSet<>();
         specs.add(new Specialities(tokens[5]));
         specs.add(new Specialities(tokens[6]));
         doctor.setSpecialities(specs);

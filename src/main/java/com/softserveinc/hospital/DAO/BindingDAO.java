@@ -7,6 +7,8 @@ import org.joda.time.format.DateTimeFormat;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by ksu on 05.04.16.
@@ -34,7 +36,7 @@ public class BindingDAO {
             rs = statement.executeQuery(String.format(GET_DOCTOR_BY_ID,id));
             while (rs.next()) {
                 Doctor doctor = new Doctor();
-                ArrayList<Specialities> spec = new ArrayList();
+                Set<Specialities> spec = new HashSet<>();
                 doctor.setSpecialities(spec);
                 doctor.setId(id);
                 doctor.setFirstName(rs.getString("first_name"));

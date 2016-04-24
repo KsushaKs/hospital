@@ -7,6 +7,8 @@ import org.joda.time.format.DateTimeFormat;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by ksu on 05.04.16.
@@ -28,7 +30,7 @@ public class Speciality1DAO {
         ArrayList<Doctor> doctors = new ArrayList<>();
         Statement statement = null;
         ResultSet rs = null;
-        ArrayList<Specialities>sp = new ArrayList<>();
+        Set<Specialities> sp = new HashSet<>();
         try{
             statement = MySQLConnection.getConnection().createStatement();
             rs = statement.executeQuery(String.format(GET_DOCS_BY_TITLE,title));

@@ -7,9 +7,7 @@ import com.softserveinc.hospital.util.HibernateUtil;
 import org.hibernate.*;
 import org.joda.time.LocalDate;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 
 public class DoctorDAO {
@@ -107,21 +105,20 @@ public class DoctorDAO {
     }
 
     public static void main(String[] args) {
-        ArrayList<Specialities> specialties =
-                new ArrayList<>(Arrays.asList(new Specialities("one"), new Specialities("two")));
+        Set<Specialities> specialties =
+                new HashSet<>(Arrays.asList(new Specialities("one"), new Specialities("two")));
         Doctor doctor = new Doctor("Ara", "Popugai", 5, specialties, true);
         doctor.setBirthDate(new LocalDate(2000, 2, 12));
         DoctorDAO dd = new DoctorDAO();
-        List<Specialities> sp = new ArrayList<>();
+        Set<Specialities> sp = new HashSet<>();
         sp.add(new Specialities("surgeon"));
-        Doctor doctor1 = new Doctor("John","Smith", 7,sp,false);
-        doctor1.setBirthDate(new LocalDate(1978,4,9));
-        dd.setDoctor(doctor1);
-        dd.setDoctor(doctor);
+        Doctor doctor2 = new Doctor("Joe","Smith", 7,sp,false);
+        doctor2.setBirthDate(new LocalDate(1978,4,9));
+        //dd.setDoctor(doctor1);
+        dd.setDoctor(doctor2);
         //dd.deleteDoctor(8);
         //Doctor d = dd.getDoctor(1);
         //System.out.println(dd.getDoctor(1));
-
     }
 
 }

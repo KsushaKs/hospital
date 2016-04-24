@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "doctors")
@@ -34,9 +34,8 @@ public class Doctor {
 
     @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinTable(name = "doctors_specialities", joinColumns = @JoinColumn(name = "specialities_id"),
-            inverseJoinColumns = @JoinColumn(name = "doctors_id"),
-            uniqueConstraints = {@UniqueConstraint(columnNames = {"specialities_id","doctors_id"})})
-    private List<Specialities> specialities;
+            inverseJoinColumns = @JoinColumn(name = "doctors_id"))
+    private Set<Specialities> specialities;
 
     private Boolean available;
 
@@ -86,11 +85,11 @@ public class Doctor {
 
     @XmlElement(name = "specialty")
     @XmlElementWrapper(name = "specialties")
-    public List<Specialities> getSpecialities() {
+    public Set<Specialities> getSpecialities() {
         return specialities;
     }
 
-    public void setSpecialities(List<Specialities> specialties) {
+    public void setSpecialities(Set<Specialities> specialties) {
         this.specialities = specialties;
     }
 
@@ -115,7 +114,7 @@ public class Doctor {
     public Doctor() {
     }
 
-    public Doctor(String firstName, String lastName, Integer experience, List<Specialities> specialties, Boolean isAvailable) {
+    public Doctor(String firstName, String lastName, Integer experience, Set<Specialities> specialties, Boolean isAvailable) {
 
         this.firstName = firstName;
         this.lastName = lastName;
