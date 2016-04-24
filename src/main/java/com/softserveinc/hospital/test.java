@@ -5,13 +5,12 @@ import com.softserveinc.hospital.DAO.BindingDAO;
 import com.softserveinc.hospital.DAO.DoctorDAO;
 import com.softserveinc.hospital.DAO.SpecialityDAO;
 import com.softserveinc.hospital.model.Doctor;
-import com.softserveinc.hospital.model.Specialities;
+import com.softserveinc.hospital.model.Speciality;
 import com.softserveinc.hospital.serializer.JSONDoctor;
 import com.softserveinc.hospital.serializer.TXTDoctor;
 import com.softserveinc.hospital.serializer.XMLDoctor;
 import org.joda.time.LocalDate;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,7 +18,7 @@ import java.util.Set;
 public class test {
 
     public static void main(String[] args) {
-        Set<Specialities> specialties = new HashSet<>(Arrays.asList(new Specialities("one"), new Specialities("two")));
+        Set<Speciality> specialties = new HashSet<>(Arrays.asList(new Speciality("one"), new Speciality("two")));
         Doctor doctor = new Doctor("Ara", "Popugai", 5, specialties, true);
         doctor.setBirthDate(new LocalDate(2000, 2, 12));
         XMLDoctor jaxbDoctor = new XMLDoctor();
@@ -35,7 +34,7 @@ public class test {
         Doctor smith = new Doctor("Mary", "Brawn", 10, specialties, false);
         smith.setBirthDate(new LocalDate(1988, 02, 9));
         bindingDAO.createBinding();
-        doctorDAO.setDoctor(smith);
+        doctorDAO.save(smith);
         int a = 1;
     }
 }

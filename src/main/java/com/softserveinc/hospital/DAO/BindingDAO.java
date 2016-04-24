@@ -1,7 +1,7 @@
 package com.softserveinc.hospital.DAO;
 
 import com.softserveinc.hospital.model.Doctor;
-import com.softserveinc.hospital.model.Specialities;
+import com.softserveinc.hospital.model.Speciality;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 
@@ -36,7 +36,7 @@ public class BindingDAO {
             rs = statement.executeQuery(String.format(GET_DOCTOR_BY_ID,id));
             while (rs.next()) {
                 Doctor doctor = new Doctor();
-                Set<Specialities> spec = new HashSet<>();
+                Set<Speciality> spec = new HashSet<>();
                 doctor.setSpecialities(spec);
                 doctor.setId(id);
                 doctor.setFirstName(rs.getString("first_name"));
@@ -44,7 +44,7 @@ public class BindingDAO {
                 doctor.setBirthDate(LocalDate.parse(rs.getString("birthday"), DateTimeFormat.forPattern("yyyy-MM-dd")));
                 doctor.setExperience(rs.getInt("experience"));
                 doctor.setAvailable(rs.getString("available").equalsIgnoreCase("Y"));
-                spec.add(new Specialities(rs.getString("title")));
+                spec.add(new Speciality(rs.getString("title")));
                 doctors.add(doctor);
             }
         } catch (SQLException e) {
@@ -72,7 +72,7 @@ public class BindingDAO {
         Connection connection = MySQLConnection.getConnection();
         PreparedStatement ps = null;
         try{
-            for(Specialities spec : doctor.getSpecialities()){
+            for(Speciality spec : doctor.getSpecialities()){
             ps = connection.prepareStatement(SET_BINDING);
             ps.setString(1,spec.getTitle());
             ps.setLong(2,doctor.getId());

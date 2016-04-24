@@ -1,7 +1,7 @@
 package com.softserveinc.hospital.serializer;
 
 import com.softserveinc.hospital.model.Doctor;
-import com.softserveinc.hospital.model.Specialities;
+import com.softserveinc.hospital.model.Speciality;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.Years;
@@ -80,9 +80,9 @@ public class TXTDoctor implements Convertible {
         doctor.setBirthDate(LocalDate.parse(tokens[2]));}
         doctor.setExperience(Integer.parseInt(tokens[3]));
         doctor.setAvailable(tokens[4].equals("Y"));
-        Set<Specialities> specs = new HashSet<>();
-        specs.add(new Specialities(tokens[5]));
-        specs.add(new Specialities(tokens[6]));
+        Set<Speciality> specs = new HashSet<>();
+        specs.add(new Speciality(tokens[5]));
+        specs.add(new Speciality(tokens[6]));
         doctor.setSpecialities(specs);
         return doctor;
     }

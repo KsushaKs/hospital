@@ -5,15 +5,20 @@
 
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.connection.driver_class"> com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.url"> jdbc:mysql://localhost:3306/hospital2</property>
+
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/hospital2</property>
         <property name="hibernate.connection.username">root</property>
         <property name="connection.password">root</property>
-        <property name="connection.pool_size">10</property>
-        <property name="hibernate.dialect"> org.hibernate.dialect.MySQL5InnoDBDialect</property>
+
         <property name="show_sql">true</property>
         <property name="hbm2ddl.auto">update</property>
-        <mapping class="com.softserveinc.hospital.model.Doctor" />
-        <mapping class="com.softserveinc.hospital.model.Specialities" />
+        <property name="connection.pool_size">10</property>
+
+        <mapping package="com.softserveinc.hospital.model"/>
+        <mapping class="com.softserveinc.hospital.model.Doctor"/>
+        <mapping class="com.softserveinc.hospital.model.Speciality"/>
     </session-factory>
+
 </hibernate-configuration>

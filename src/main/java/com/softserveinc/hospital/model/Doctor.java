@@ -8,7 +8,17 @@ import com.softserveinc.hospital.serializer.LocalDateJSONSerializer;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -32,17 +42,18 @@ public class Doctor {
 
     private Integer experience;
 
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinTable(name = "doctors_specialities", joinColumns = @JoinColumn(name = "specialities_id"),
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "doctors_specialities",
+            joinColumns = @JoinColumn(name = "specialities_id"),
             inverseJoinColumns = @JoinColumn(name = "doctors_id"))
-    private Set<Specialities> specialities;
+    private Set<Speciality> specialities;
 
     private Boolean available;
 
     @JsonSerialize(using = LocalDateJSONSerializer.class)
     @JsonDeserialize(using = LocalDateJSONDeserializer.class)
     @Column(name = "birth_date")
-    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
     private LocalDate birthDate;
 
 
@@ -85,11 +96,11 @@ public class Doctor {
 
     @XmlElement(name = "specialty")
     @XmlElementWrapper(name = "specialties")
-    public Set<Specialities> getSpecialities() {
+    public Set<Speciality> getSpecialities() {
         return specialities;
     }
 
-    public void setSpecialities(Set<Specialities> specialties) {
+    public void setSpecialities(Set<Speciality> specialties) {
         this.specialities = specialties;
     }
 
@@ -114,7 +125,7 @@ public class Doctor {
     public Doctor() {
     }
 
-    public Doctor(String firstName, String lastName, Integer experience, Set<Specialities> specialties, Boolean isAvailable) {
+    public Doctor(String firstName, String lastName, Integer experience, Set<Speciality> specialties, Boolean isAvailable) {
 
         this.firstName = firstName;
         this.lastName = lastName;
@@ -157,7 +168,7 @@ public class Doctor {
         String toReturn;
         String specToString = "";
         StringBuilder sb = new StringBuilder();
-        for (Specialities specialty : specialities) {
+        for (Speciality specialty : specialities) {
             specToString = sb.append(specialty).append(", ").toString();
         }
         specToString = sb.delete(specToString.length() - 2, specToString.length()).toString();

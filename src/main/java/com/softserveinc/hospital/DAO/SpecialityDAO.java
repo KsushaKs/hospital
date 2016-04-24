@@ -1,56 +1,81 @@
 package com.softserveinc.hospital.DAO;
 
-import com.softserveinc.hospital.model.Specialities;
+import com.softserveinc.hospital.model.Speciality;
 import com.softserveinc.hospital.util.HibernateUtil;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by ksu on 20.04.16.
- */
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+
 public class SpecialityDAO {
-    public void setSpecialities(Specialities specialities) {
+
+
+    @Transactional
+    public Speciality findByTitle(String title) {
+        Speciality speciality = null;
+        String query = String.format("SELECT s from Speciality as s WHERE title=%s", title);
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            speciality = (Speciality) session.createQuery(query).uniqueResult();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return speciality;
+    }
+
+
+    public Speciality saveOrUpdate(Speciality speciality) {
+        Speciality temp;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            session.getTransaction().begin();
+            temp = findByTitle(speciality.getTitle());
+            if (isNull(temp)) {
+                speciality = (Speciality) session.merge(speciality);
+            } else {
+                speciality = temp;
+            }
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return speciality;
+    }
+
+    public List<Speciality> getSpecialitiesList() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
+        List<Speciality> sp = new ArrayList<>();
         try {
-            transaction = session.beginTransaction();
-            session.save(specialities);
-            transaction.commit();
+            transaction = session.getTransaction();
+            sp = session.createQuery("from Speciality as s").list();
         } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
         } finally {
             session.close();
         }
-
-    }
-    public List<Specialities> getSpecialitiesList(){
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = null;
-        List<Specialities> sp = new ArrayList<>();
-        try{
-            transaction = session.getTransaction();
-            sp=session.createQuery("from Specialities as s").list();
-        }catch (HibernateException e){
-            transaction.rollback();
-            e.printStackTrace();
-        }finally {
-            session.close();
-        }
         return sp;
     }
 
-    public Specialities getSpecialities(long id) {
+    public Speciality getSpecialities(long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
-        Specialities specialities = new Specialities();
+        Speciality specialities = new Speciality();
         try {
             transaction = session.beginTransaction();
-            specialities = (Specialities) session.get(Specialities.class, id);
+            specialities = (Speciality) session.get(Speciality.class, id);
             transaction.commit();
         } catch (HibernateException e) {
             transaction.rollback();
@@ -60,18 +85,19 @@ public class SpecialityDAO {
         }
         return specialities;
     }
-    public void deleteSpeciality(long id){
+
+    public void deleteSpeciality(long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
-        try{
-            transaction=session.getTransaction();
-            Specialities specialities =(Specialities)session.get(Specialities.class,id);
+        try {
+            transaction = session.getTransaction();
+            Speciality specialities = (Speciality) session.get(Speciality.class, id);
             session.delete(specialities);
             transaction.commit();
-        }catch (HibernateException e){
+        } catch (HibernateException e) {
             transaction.rollback();
             e.printStackTrace();
-        }finally {
+        } finally {
             session.close();
         }
     }

@@ -1,8 +1,9 @@
 package com.softserveinc.hospital.servlets;
 
+import com.softserveinc.hospital.DAO.SpecialityDAO;
 import com.softserveinc.hospital.model.Doctor;
 import com.softserveinc.hospital.DAO.DoctorDAO;
-import com.softserveinc.hospital.model.Specialities;
+import com.softserveinc.hospital.model.Speciality;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 
@@ -12,7 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,21 +28,25 @@ public class DoctorServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-        String action = request.getParameter("Submit");
-        Doctor doctor = new Doctor();
+        SpecialityDAO specialityDAO = new SpecialityDAO();
         DoctorDAO dao = new DoctorDAO();
-        Set<Specialities> sp = new HashSet<>();
-        doctor.setSpecialities(sp);
+        Speciality speciality = null;
+        Set<Speciality> sp = new HashSet<>();
+        Doctor doctor = new Doctor();
         doctor.setFirstName(request.getParameter("firstName"));
         doctor.setLastName(request.getParameter("lastName"));
         doctor.setExperience(Integer.parseInt(request.getParameter("experience")));
         doctor.setBirthDate(LocalDate.parse(request.getParameter("dob"), DateTimeFormat.forPattern("yyyy-MM-dd")));
         doctor.setAvailable(request.getParameter("available").equalsIgnoreCase("true"));
-        String[] split = request.getParameter("speciality").split("\\W");
-        for(String s:split){
-            sp.add(new Specialities(s));
+        String[] split = request.getParameter("speciality").split(",");
+        for (String s : split) {
+            sp.add(new Speciality(s.trim()));
         }
-        dao.setDoctor(doctor);
+        for (Speciality s : sp) {
+            specialityDAO.saveOrUpdate(s);
+        }
+        doctor.setSpecialities(sp);
+        dao.save(doctor);
         try {
             response.sendRedirect("ms?action=Doctors");
         } catch (IOException e) {

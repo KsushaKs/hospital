@@ -25,17 +25,17 @@ public class SpServlet extends HttpServlet {
         SpecialityDAO sDAO = new SpecialityDAO();
         if (action.equals("add")) {
             //sDAO.setTitle(request.getParameter("title"));
-            response.sendRedirect("ms?action=Specialities");
+            response.sendRedirect("ms?action=Speciality");
         } else if (action.equals("delete empty")) {
             // sDAO.deleteEmptySpeciality();
-            response.sendRedirect("ms?action=Specialities");
+            response.sendRedirect("ms?action=Speciality");
         } else if (action.equals("spec")) {
           //  ArrayList<Doctor> doctors = sDAO.getDocBySpeciality(request.getParameter("title"));
            // request.setAttribute("doctors", doctors);
             request.getRequestDispatcher("filterDocBySpec.jsp").forward(request, response);
         } else if (action.equals("edit")) {
             //  sDAO.updateTitle(request.getParameter("title"),Long.parseLong(request.getParameter("id")));
-            response.sendRedirect("ms?action=Specialities");
+            response.sendRedirect("ms?action=Speciality");
         }
 
 
@@ -45,6 +45,6 @@ public class SpServlet extends HttpServlet {
         String action = request.getParameter("delete empty");
         SpecialityDAO sDAO = new SpecialityDAO();
         // sDAO.deleteEmptySpeciality();
-        response.sendRedirect("ms?action=Specialities");
+        response.sendRedirect("ms?action=Speciality");
     }
 }

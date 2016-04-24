@@ -1,7 +1,7 @@
 package com.softserveinc.hospital.DAO;
 
 import com.softserveinc.hospital.model.Doctor;
-import com.softserveinc.hospital.model.Specialities;
+import com.softserveinc.hospital.model.Speciality;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,7 +64,7 @@ public class HospitalData {
         for (int i = 0; i < titles.size(); i++) {
             String speciality = titles.get(i);
             for (int j = 0; j < doctors.size(); j++) {
-                Set<Specialities> doctorSp = doctors.get(j).getSpecialities();
+                Set<Speciality> doctorSp = doctors.get(j).getSpecialities();
                  {
                      {
                         int value = countDoctors.get(speciality);
