@@ -1,15 +1,13 @@
-package com.softserveinc.hospital.model;
+package com.softserveinc.hospital.serializer;
 
+import com.softserveinc.hospital.model.Doctor;
+import com.softserveinc.hospital.model.Specialities;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.Years;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -73,7 +71,7 @@ public class TXTDoctor implements Convertible {
     private Doctor parse(String line) {
         Doctor doctor = new Doctor();
         String[] tokens = line.split("\\W*");
-        doctor.setId(Doctor.getCountID());
+        //doctor.setId(Doctor.getCountID());
         doctor.setFirstName(tokens[0]);
         doctor.setLastName(tokens[1]);
         if(isValidDate(tokens[2])){
@@ -83,7 +81,7 @@ public class TXTDoctor implements Convertible {
         ArrayList<Specialities> specs = new ArrayList<>();
         specs.add(new Specialities(tokens[5]));
         specs.add(new Specialities(tokens[6]));
-        doctor.setSpecialties(specs);
+        doctor.setSpecialities(specs);
         return doctor;
     }
 

@@ -2,26 +2,48 @@ package com.softserveinc.hospital.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.softserveinc.hospital.serializer.LocalDateAdapterXML;
+import com.softserveinc.hospital.serializer.LocalDateJSONDeserializer;
+import com.softserveinc.hospital.serializer.LocalDateJSONSerializer;
+import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import java.util.ArrayList;
+import java.util.List;
 
+@Entity
+@Table(name = "doctors")
 @XmlRootElement
 public class Doctor {
-    private static Long countID = 0L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "last_name")
     private String lastName;
+
     private Integer experience;
-    private ArrayList<Specialities> specialties;
+
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinTable(name = "doctors_specialities", joinColumns = @JoinColumn(name = "specialities_id"),
+            inverseJoinColumns = @JoinColumn(name = "doctors_id"),
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"specialities_id","doctors_id"})})
+    private List<Specialities> specialities;
+
     private Boolean available;
-    @JsonSerialize(using =LocalDateJSONSerializer.class )
+
+    @JsonSerialize(using = LocalDateJSONSerializer.class)
     @JsonDeserialize(using = LocalDateJSONDeserializer.class)
+    @Column(name = "birth_date")
+    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
     private LocalDate birthDate;
 
 
@@ -64,12 +86,12 @@ public class Doctor {
 
     @XmlElement(name = "specialty")
     @XmlElementWrapper(name = "specialties")
-    public ArrayList<Specialities> getSpecialties() {
-        return specialties;
+    public List<Specialities> getSpecialities() {
+        return specialities;
     }
 
-    public void setSpecialties(ArrayList<Specialities> specialties) {
-        this.specialties = specialties;
+    public void setSpecialities(List<Specialities> specialties) {
+        this.specialities = specialties;
     }
 
     @XmlAttribute
@@ -91,16 +113,15 @@ public class Doctor {
     }
 
     public Doctor() {
-        this.id = getCountID();
     }
 
-    public Doctor( String firstName, String lastName, Integer experience, ArrayList<Specialities> specialties, Boolean isAvailable) {
-        this.id = getCountID();
+    public Doctor(String firstName, String lastName, Integer experience, List<Specialities> specialties, Boolean isAvailable) {
+
         this.firstName = firstName;
         this.lastName = lastName;
         this.experience = experience;
         this.available = isAvailable;
-        this.specialties = specialties;
+        this.specialities = specialties;
 
     }
 
@@ -115,7 +136,7 @@ public class Doctor {
         if (firstName != null ? !firstName.equals(doctor.firstName) : doctor.firstName != null) return false;
         if (lastName != null ? !lastName.equals(doctor.lastName) : doctor.lastName != null) return false;
         if (experience != null ? !experience.equals(doctor.experience) : doctor.experience != null) return false;
-        if (specialties != null ? !specialties.equals(doctor.specialties) : doctor.specialties != null) return false;
+        if (specialities != null ? !specialities.equals(doctor.specialities) : doctor.specialities != null) return false;
         return available != null ? available.equals(doctor.available) : doctor.available == null;
 
     }
@@ -127,14 +148,9 @@ public class Doctor {
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (experience != null ? experience.hashCode() : 0);
-        result = 31 * result + (specialties != null ? specialties.hashCode() : 0);
+        result = 31 * result + (specialities != null ? specialities.hashCode() : 0);
         result = 31 * result + (available != null ? available.hashCode() : 0);
         return result;
-    }
-
-    public static Long getCountID() {
-        countID++;
-        return countID;
     }
 
     @Override
@@ -142,7 +158,7 @@ public class Doctor {
         String toReturn;
         String specToString = "";
         StringBuilder sb = new StringBuilder();
-        for (Specialities specialty : specialties) {
+        for (Specialities specialty : specialities) {
             specToString = sb.append(specialty).append(", ").toString();
         }
         specToString = sb.delete(specToString.length() - 2, specToString.length()).toString();

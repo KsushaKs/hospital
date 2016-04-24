@@ -66,7 +66,7 @@
                         <th>Available</th>
                         <th>action</th>
                     </tr>
-                    <c:forEach var="doctor" items="${doctors}">
+                   <c:forEach var="doctor" items="${doctors}">
                         <tr>
                             <form action="">
                                 <td>

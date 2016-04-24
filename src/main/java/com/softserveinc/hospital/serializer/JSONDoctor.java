@@ -1,7 +1,9 @@
-package com.softserveinc.hospital.model;
+package com.softserveinc.hospital.serializer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.softserveinc.hospital.model.Doctor;
+import com.softserveinc.hospital.serializer.Convertible;
 
 import java.io.File;
 import java.io.IOException;

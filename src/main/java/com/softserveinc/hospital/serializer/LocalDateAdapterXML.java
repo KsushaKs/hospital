@@ -1,4 +1,4 @@
-package com.softserveinc.hospital.model;
+package com.softserveinc.hospital.serializer;
 
 import org.joda.time.LocalDate;
 

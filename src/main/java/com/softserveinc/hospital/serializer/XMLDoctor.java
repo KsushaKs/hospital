@@ -1,4 +1,7 @@
-package com.softserveinc.hospital.model;
+package com.softserveinc.hospital.serializer;
+
+import com.softserveinc.hospital.model.Doctor;
+import com.softserveinc.hospital.serializer.Convertible;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
