@@ -5,10 +5,13 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.softserveinc.hospital.serializer.LocalDateAdapterXML;
 import com.softserveinc.hospital.serializer.LocalDateJSONDeserializer;
 import com.softserveinc.hospital.serializer.LocalDateJSONSerializer;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.*;
 import org.joda.time.LocalDate;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -32,7 +35,7 @@ public class Doctor {
 
     private Integer experience;
 
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.ALL,CascadeType.MERGE,CascadeType.PERSIST})
     @JoinTable(name = "doctors_specialities", joinColumns = @JoinColumn(name = "specialities_id"),
             inverseJoinColumns = @JoinColumn(name = "doctors_id"))
     private Set<Specialities> specialities;

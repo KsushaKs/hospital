@@ -69,14 +69,16 @@ public class DoctorDAO {
         }
         return doctor;
     }
-    @Transactional
+
     public void updateDoctor(String firstName,String title,long id){
         Session session = HibernateUtil.getSessionFactory().openSession();
         try{
+            session.getTransaction().begin();
             Doctor doctor = (Doctor) session.get(Doctor.class,id);
             doctor.setFirstName(firstName);
             doctor.getSpecialities().add(new Specialities(title));
             session.update(doctor);
+            session.getTransaction().commit();
         }catch (HibernateException e){e.printStackTrace();}finally {
             session.close();
         }
@@ -142,13 +144,13 @@ public class DoctorDAO {
         sp.add(new Specialities("t"));
         Doctor doctor2 = new Doctor("John", "Smith", 7, sp, false);
         doctor2.setBirthDate(new LocalDate(1978, 4, 9));
-        //dd.setDoctor(doctor);
-       //dd.setDoctor(doctor2);
+        dd.setDoctor(doctor);
+       dd.setDoctor(doctor2);
         //dd.deleteDoctor(8);
         //Doctor d = dd.getDoctor(1);
         //System.out.println(dd.getDoctor(1));
-        List<Doctor> ds =  dd.getDoctorBySpeciality("one");
-        System.out.println(ds.get(0).getFirstName());
+        //List<Doctor> ds =  dd.getDoctorBySpeciality("one");
+        //System.out.println(ds.get(0).getFirstName());
     }
 
 }

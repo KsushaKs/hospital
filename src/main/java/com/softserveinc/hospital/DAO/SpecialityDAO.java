@@ -90,12 +90,22 @@ public class SpecialityDAO {
             session.close();
         }
     }
+    public List<Specialities> showEmpty(){
+        List<Specialities> list = new ArrayList<>();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try{session.getTransaction();
+            list = session.createQuery("FROM Specialities as s WHERE s.id NOT IN " +
+                    "( FROM Doctor)").list();
+
+        }catch (HibernateException e){e.printStackTrace();}finally {
+            HibernateUtil.getSessionFactory().close();
+        }
+        return list;
+    }
 
     public static void main(String[] args) {
         SpecialityDAO sd = new SpecialityDAO();
-        System.out.println(sd.getSpecialities(45l));
-        sd.updateSpecialities("success",45l);
-        System.out.println(sd.getSpecialities(45l));
+        List<Specialities>l=sd.showEmpty();
 
     }
 }
