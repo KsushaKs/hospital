@@ -72,7 +72,7 @@
 </div>
 <form action="/ss">
     <input name="title" type="text" value="${speciality.title}">
-    <input name="action" type="submit" value="add">
+    <input name="action" type="submit" value="add speciality">
 </form>
 </body>
 </html>
