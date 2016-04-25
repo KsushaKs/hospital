@@ -31,18 +31,6 @@
 
 </head>
 <body>
-<form id='testForm1' method="post" action='/addDoctor' onsubmit='return cFM_checktrueAttr($("#testForm1"));'>
-    First Name : <input type='text' name="firstName" cfm_check='Y_name' title='first name' />
-    <br/>
-    Last Name : <input type='text' name="lastName" cfm_check='Y_name' title='last name' /> <br/>
-    DOB : <input type="text" name="dob" cfm_check='Y_date' title='date of birth'/>
-    <br/>
-    Experience : <input type='text' name="experience" cfm_check='Y_num' title='experience' /><br/>
-    Available : <input type="text" name="available" cfm_check='Y' title='available'/><br/>
-    Speciality :<input type='text' name="speciality" cfm_check='Y' title='speciality'/>
-    <br/>
-    <input type="submit" value="Submit"/>
-</form>
 
 <div class="top-content">
 

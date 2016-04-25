@@ -29,8 +29,9 @@
 
 </head>
 <body>
-<form action="/ss">
+<form action="/ms">
     <input name="action" type="submit" value="Specialities"/>
+    <input name="action" type="submit" value="Doctors"/>
 </form>
 <div class="container">
     <div class="row">
@@ -68,7 +69,7 @@
         <input name="action" type="submit" value="add">
     </form>
     <form action="/ss">
-        <input name="action" type="submit" value="delete empty">
+        <input name="action" type="submit" value="show empty">
     </form>
 
 </div>

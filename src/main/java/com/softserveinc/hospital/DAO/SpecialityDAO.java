@@ -44,13 +44,16 @@ public class SpecialityDAO {
         }
         return sp;
     }
-    @Transactional
+
     public void updateSpecialities(String title,long id){
         Session session =HibernateUtil.getSessionFactory().openSession();
+
         try{
+            session.getTransaction().begin();
             Specialities s =(Specialities) session.get(Specialities.class,id);
             s.setTitle(title);
-            session.update(s);
+            session.merge(s);
+            session.getTransaction().commit();
         }catch (HibernateException e){e.printStackTrace();}finally {
             session.close();
         }
@@ -90,7 +93,9 @@ public class SpecialityDAO {
 
     public static void main(String[] args) {
         SpecialityDAO sd = new SpecialityDAO();
-        sd.updateSpecialities("second",45l);
+        System.out.println(sd.getSpecialities(45l));
+        sd.updateSpecialities("success",45l);
+        System.out.println(sd.getSpecialities(45l));
 
     }
 }

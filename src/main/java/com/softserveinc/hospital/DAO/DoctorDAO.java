@@ -83,11 +83,12 @@ public class DoctorDAO {
     }
 
     @Transactional
-    public List<Doctor> getDoctorBySpeciality(long id) {
+    public List<Doctor> getDoctorBySpeciality(String title) {
+        String query = "select d from Doctor d join d.specialities s where s.title='%s'";
         List<Doctor> doctors = new ArrayList<>();
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
-            doctors=session.createQuery("from Doctor as d , Specialities as s where specialities = s.title").list();
+            doctors=session.createQuery(String.format(query,title)).list();
         } catch (HibernateException e) {
             e.printStackTrace();
         } finally {
@@ -142,11 +143,12 @@ public class DoctorDAO {
         Doctor doctor2 = new Doctor("John", "Smith", 7, sp, false);
         doctor2.setBirthDate(new LocalDate(1978, 4, 9));
         //dd.setDoctor(doctor);
-       dd.setDoctor(doctor2);
+       //dd.setDoctor(doctor2);
         //dd.deleteDoctor(8);
         //Doctor d = dd.getDoctor(1);
         //System.out.println(dd.getDoctor(1));
-        //List<Doctor> ds =  dd.getDoctorBySpeciality(10);
+        List<Doctor> ds =  dd.getDoctorBySpeciality("one");
+        System.out.println(ds.get(0).getFirstName());
     }
 
 }

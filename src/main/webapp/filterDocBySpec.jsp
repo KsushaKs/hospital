@@ -40,7 +40,7 @@
 
         <div class="col-md-12">
             <c:set var="spec" value="${doctors[0]}"/>
-            <h4>All Doctors with speciality ${spec.specialties[0]}</h4>
+            <h4>All Doctors with speciality ${title}</h4>
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <tr>
@@ -50,7 +50,6 @@
                         <th>Date Of Birth</th>
                         <th>Experience</th>
                         <th>Available</th>
-                        <th>Speciality</th>
                     </tr>
                     <c:forEach var="doctor" items="${doctors}">
                         <tr>
@@ -74,9 +73,7 @@
                                 <td>
                                         ${doctor.available}
                                 </td>
-                                <td>
-                                        ${doctor.specialties[0]}
-                                </td>
+
                             </form>
                         </tr>
                     </c:forEach>

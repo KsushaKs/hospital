@@ -38,7 +38,7 @@ public class DoctorServlet extends HttpServlet {
         doctor.setExperience(Integer.parseInt(request.getParameter("experience")));
         doctor.setBirthDate(LocalDate.parse(request.getParameter("dob"), DateTimeFormat.forPattern("yyyy-MM-dd")));
         doctor.setAvailable(request.getParameter("available").equalsIgnoreCase("true"));
-        String[] split = request.getParameter("speciality").split("\\W");
+        String[] split = request.getParameter("speciality").split(",");
         for(String s:split){
             sp.add(new Specialities(s));
         }
